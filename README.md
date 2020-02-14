@@ -45,7 +45,7 @@ Make sure to set data limits before using the htext function. Otherwise the data
 Parameters:  
 ##########
 
-s: text including <highlighted substrings>  
+s: text including highlighted substrings  
 x: x position with left alignment  
 y: y position  
 color: textcolor of unhighlighted text  
