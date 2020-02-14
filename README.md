@@ -5,11 +5,11 @@ This package provides two functions that allow you to plot text with <highlighte
  - fig_htext for plotting onto the figure in figure coordinates.  
 
 They take a string with substring delimiters = ['<', '>'] to be highlighted according to highlight colors:
-'The weather is <sunny> today. Yesterday it <rained>.', color = 'k', highlight_colors = ['C1', 'grey']
+'The weather is (sunny) today. Yesterday it (rained).', color = 'k', highlight_colors = ['C1', 'grey']
 prints the text with 'sunny' as orange and 'rained' as grey.
 
-A minimal example would be:
-htext(s = 'The weather is <sunny> today. Yesterday it <rained>.',
+A minimal example would be (Replace () with delimiters <> - markdown won't show them):  
+htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
       x = 0, y = 0.5,
       color = 'k', highlight_colors = ['C1', 'grey'])
 
