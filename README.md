@@ -15,7 +15,7 @@ and highlight_weights ie. ['regular', 'bold'].
 
 Make sure to set data limits before using this function. Otherwise the data transformation will not work properly.
 
-![png](/examples/h_text.png)
+![png](/examples/htext.png)
 
 Parameters:  
 ##########
