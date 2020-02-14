@@ -12,17 +12,21 @@ A minimal example would be (Replace () with delimiters <> - markdown won't show 
 
 from highlight_text.htext import htext, fig_htext  
 
-  fig, ax = plt.subplots()
-  htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
+<pre><code>
+fig, ax = plt.subplots()  
+htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
           x = 0, y = 0.5,
           color = 'k', highlight_colors = ['C1', 'grey'])
+</code></pre>
 
 or for the fig_htext:
 
-  fig, ax = plt.subplots()
-  fig_htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
+<pre><code>
+fig, ax = plt.subplots()  
+fig_htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
               x = 0, y = 0.5,
               color = 'k', highlight_colors = ['C1', 'grey'])
+</code></pre>
 
 You can further highlight by using  
 highlight_styles ie. ['normal', 'italic', 'oblique']  
