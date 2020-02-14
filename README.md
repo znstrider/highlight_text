@@ -9,9 +9,20 @@ They take a string with substring delimiters = ['<', '>'] to be highlighted acco
 prints the text with 'sunny' as orange and 'rained' as grey.
 
 A minimal example would be (Replace () with delimiters <> - markdown won't show them):  
+
+from highlight_text.htext import htext, fig_htext  
+
+fig, ax = plt.subplots()
 htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
       x = 0, y = 0.5,
       color = 'k', highlight_colors = ['C1', 'grey'])
+
+or for the fig_htext:
+
+fig, ax = plt.subplots()
+fig_htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
+            x = 0, y = 0.5,
+            color = 'k', highlight_colors = ['C1', 'grey'])
 
 You can further highlight by using  
 highlight_styles ie. ['normal', 'italic', 'oblique']  
@@ -20,9 +31,10 @@ and highlight_weights ie. ['regular', 'bold'].
 Make sure to set data limits before using this function. Otherwise the data transformation will not work properly.
 
 
-#### Installation
+### Installation
 
-pip install highlight-text
+    pip install highlight-text
+
 
 
 ![png](/examples/htext.png)
