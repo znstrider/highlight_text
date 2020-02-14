@@ -10,7 +10,7 @@ prints the text with 'sunny' as orange and 'rained' as grey.
 
 A minimal example would be (Replace () with delimiters <> - markdown won't show them):  
 
-from highlight_text.htext import htext, fig_htext  
+  from highlight_text.htext import htext, fig_htext  
 
 <pre><code>fig, ax = plt.subplots()  
 htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
@@ -30,7 +30,7 @@ and highlight_weights ie. ['regular', 'bold'].
 
 This does work with linebreaks \n, fstrings and ha in ['left', 'right', 'center'] as well as va in ['botton', 'top', 'center'].
 
-Make sure to set data limits before using this function. Otherwise the data transformation will not work properly.
+Make sure to set data limits before using the htext function. Otherwise the data transformation will not show properly.
 
 
 ### Installation
