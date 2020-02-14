@@ -12,25 +12,23 @@ A minimal example would be (Replace () with delimiters <> - markdown won't show 
 
 from highlight_text.htext import htext, fig_htext  
 
-<pre><code>
-fig, ax = plt.subplots()  
+<pre><code>fig, ax = plt.subplots()  
 htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
           x = 0, y = 0.5,
-          color = 'k', highlight_colors = ['C1', 'grey'])
-</code></pre>
+          color = 'k', highlight_colors = ['C1', 'grey'])</code></pre>
 
 or for the fig_htext:
 
-<pre><code>
-fig, ax = plt.subplots()  
+<pre><code>fig, ax = plt.subplots()  
 fig_htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
               x = 0, y = 0.5,
-              color = 'k', highlight_colors = ['C1', 'grey'])
-</code></pre>
+              color = 'k', highlight_colors = ['C1', 'grey'])</code></pre>
 
 You can further highlight by using  
 highlight_styles ie. ['normal', 'italic', 'oblique']  
 and highlight_weights ie. ['regular', 'bold'].  
+
+This does work with linebreaks \n, fstrings and ha in ['left', 'right', 'center'] as well as va in ['botton', 'top', 'center'].
 
 Make sure to set data limits before using this function. Otherwise the data transformation will not work properly.
 
