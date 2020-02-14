@@ -10,7 +10,7 @@ prints the text with 'sunny' as orange and 'rained' as grey.
 
 A minimal example would be (Replace () with delimiters <> - markdown won't show them):  
 
-  from highlight_text.htext import htext, fig_htext  
+    from highlight_text.htext import htext, fig_htext  
 
 <pre><code>fig, ax = plt.subplots()  
 htext(s = 'The weather is (sunny) today. Yesterday it (rained).',
