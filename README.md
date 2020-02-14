@@ -15,6 +15,8 @@ and highlight_weights ie. ['regular', 'bold'].
 
 Make sure to set data limits before using this function. Otherwise the data transformation will not work properly.
 
+![png](/examples/h_text.png)
+
 Parameters:  
 ##########
 
@@ -40,3 +42,5 @@ Returns:
 ##########
 
 a list of texts
+
+![Alt Text](/examples/htext.gif)
