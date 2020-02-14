@@ -1,3 +1,5 @@
+![png](/examples/highlight_text_logo.png)
+
 ### highlight_text
 
 This package provides two functions that allow you to plot text with <highlighted substrings> in matplotlib:
