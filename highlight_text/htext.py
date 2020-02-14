@@ -81,19 +81,18 @@ def htext(s, x, y,
         assert n_highlights == len(highlight_styles), f'You should specify either one highlight style or the same number as text highlights.\nYou input {n_highlights} highlights and {len(highlight_styles)} styles.'
     
     assert va in ['top', 'bottom', 'center'], "Specify either 'top', 'bottom' or 'center' for va"
-    
+    assert ha in ['left', 'right', 'center'], "Specify either 'left', 'right' or 'center' for ha"
+
     text_rows = s.split('\n')
     
     while is_empty_string(text_rows[0]):
         text_rows = text_rows[1:]
         
-    global textline_widths
     textline_widths = []
     textline_xs = []
     row_texts = []
     highlight_count = 0
 
-    global text_row
     for text_row in text_rows:
         if is_empty_string(text_row):
             # set next lines y
@@ -123,7 +122,6 @@ def htext(s, x, y,
                     texts.append(ax.text(s=text, x=x, y=y, color=color, fontweight=weight, fontstyle=style, ha = 'left', va = 'top', **kwargs))
             fig.canvas.draw()
 
-            global tcboxes
             tcboxes = []
 
             for column, text in enumerate(texts):
@@ -137,7 +135,6 @@ def htext(s, x, y,
             textline_widths.append((tcboxes[:, 2] - tcboxes[:, 0]).sum())
             textbox_hight = (tcboxes[0, -1] - tcboxes[0, 1]) * (len(text_rows) + (len(text_rows) - 1) * linespacing)
             
-            global xs
             textline_xs.append(np.hstack([tcboxes[0, 0],
                                            tcboxes[0, 0]
                                                    + np.cumsum(tcboxes[:-1, 2] - tcboxes[:-1, 0])
@@ -161,7 +158,7 @@ def htext(s, x, y,
             adjust = -0.5 * textline_width
         elif ha == 'right':
             adjust = -textline_width
-        elif ha == 'left':
+        else:
             adjust = 0
         
         xs = xs + adjust
@@ -247,19 +244,18 @@ def fig_htext(s, x, y,
         assert n_highlights == len(highlight_styles), f'You should specify either one highlight style or the same number as text highlights.\nYou input {n_highlights} highlights and {len(highlight_styles)} styles.'
     
     assert va in ['top', 'bottom', 'center'], "Specify either 'top', 'bottom' or 'center' for va"
+    assert ha in ['left', 'right', 'center'], "Specify either 'left', 'right' or 'center' for ha"
     
     text_rows = s.split('\n')
     
     while is_empty_string(text_rows[0]):
         text_rows = text_rows[1:]
-        
-    global textline_widths
+    
     textline_widths = []
     textline_xs = []
     row_texts = []
     highlight_count = 0
 
-    global text_row
     for text_row in text_rows:
         if is_empty_string(text_row):
             # set next lines y
@@ -289,7 +285,6 @@ def fig_htext(s, x, y,
                     texts.append(fig.text(s=text, x=x, y=y, color=color, fontweight=weight, fontstyle=style, ha = 'left', va = 'top', **kwargs))
             fig.canvas.draw()
 
-            global tcboxes
             tcboxes = []
 
             for column, text in enumerate(texts):
@@ -303,7 +298,6 @@ def fig_htext(s, x, y,
             textline_widths.append((tcboxes[:, 2] - tcboxes[:, 0]).sum())
             textbox_hight = (tcboxes[0, -1] - tcboxes[0, 1]) * (len(text_rows) + (len(text_rows) - 1) * linespacing)
             
-            global xs
             textline_xs.append(np.hstack([tcboxes[0, 0],
                                            tcboxes[0, 0]
                                                    + np.cumsum(tcboxes[:-1, 2] - tcboxes[:-1, 0])
@@ -320,14 +314,13 @@ def fig_htext(s, x, y,
             y = tcboxes[0, 1] - textline_hight * linespacing
 
             row_texts.append(texts)
-
     
     for xs, textline_width, texts in zip(textline_xs, textline_widths, row_texts):
         if ha == 'center':
             adjust = -0.5 * textline_width
         elif ha == 'right':
             adjust = -textline_width
-        elif ha == 'left':
+        else:
             adjust = 0
         
         xs = xs + adjust

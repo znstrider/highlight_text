@@ -4,16 +4,26 @@ This package provides two functions that allow you to plot text with <highlighte
  - htext for plotting onto an axes in data coordinates.  
  - fig_htext for plotting onto the figure in figure coordinates.  
 
-
 They take a string with substring delimiters = ['<', '>'] to be highlighted according to highlight colors:
-'The weather is <sunny> today. Yesterday it <rained>.', color = 'w', highlight_colors = ['yellow', 'grey']
-prints the text in white with 'sunny' as yellow and 'rained' as grey.
+'The weather is <sunny> today. Yesterday it <rained>.', color = 'k', highlight_colors = ['C1', 'grey']
+prints the text with 'sunny' as orange and 'rained' as grey.
+
+A minimal example would be:
+htext(s = 'The weather is <sunny> today. Yesterday it <rained>.',
+      x = 0, y = 0.5,
+      color = 'k', highlight_colors = ['C1', 'grey'])
 
 You can further highlight by using  
 highlight_styles ie. ['normal', 'italic', 'oblique']  
 and highlight_weights ie. ['regular', 'bold'].  
 
 Make sure to set data limits before using this function. Otherwise the data transformation will not work properly.
+
+
+#### Installation
+
+pip install highlight-text
+
 
 ![png](/examples/htext.png)
 
