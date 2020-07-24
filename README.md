@@ -33,7 +33,7 @@ and highlight_weights ie. ['regular', 'bold'].
 
 This does work with linebreaks \n, fstrings and ha in ['left', 'right', 'center'] as well as va in ['botton', 'top', 'center'].
 
-Make sure to set data limits before using the htext function. Otherwise the data transformation will not show properly.
+<b>Make sure to set data limits and if used call plt.tight_layout() before using the htext function. Otherwise the data transformation will not show properly.</b>
 
 
 ### Installation
