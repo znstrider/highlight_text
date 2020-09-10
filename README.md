@@ -63,8 +63,8 @@ ha = 'left', textalignment has to be in ['left', 'right', 'center']
 hpadding = 0: extra padding between highlight and normal text  
 linespacing = 0.25: linespacing in factor of font height between rows  
 **kwargs: figure.text | plt.text kwargs  
-[ax: axes to draw the text onto (in case of htext)]  
-[fig: figure(in case of fig_htext)]  
+[ax: axes to draw the text onto (in case of ax_text)]  
+[fig: figure(in case of fig_text)]  
 
 Returns:  
 ##########
