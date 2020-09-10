@@ -1,5 +1,9 @@
 # Byte-compiled / optimized / DLL files
+notebooks/
+plots/
 __pycache__/
+*.code-workspace
+*.vscode
 *.py[cod]
 *$py.class
 

@@ -1,22 +1,26 @@
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 
-def htext(s, x, y,
-          color='k',
-          highlight_colors=['C1'],
-          highlight_weights=['regular'],
-          highlight_styles=['normal'],
-          string_weight='regular',
-          string_style='normal',
-          ax=None,
-          delim=['<', '>'],
-          va='bottom',
-          ha='left',
-          hpadding=0,
-          linespacing=0.25,
-          **kwargs):
+def ax_text(x, y, s,
+            color=None,
+            highlight_colors=['C1'],
+            highlight_weights=['regular'],
+            highlight_styles=['normal'],
+            fontweight='regular',
+            fontstyle='normal',
+            ax=None,
+            delim=['<', '>'],
+            va='bottom',
+            ha='left',
+            hpadding=0,
+            linespacing=0.25,
+            **kwargs):
     '''
+    NOTE: do not use plt.tight_layout() after using this
+    method as it adjusts the margins and spacing. Better to
+    use constrained_layout=True as an arg when you create figure.
     Takes a string with substrings delimiters = ['<', '>']
     to be highlighted according to highlight colors:
     'The weather is <sunny> today. Yesterday it <rained>.',
@@ -36,8 +40,8 @@ def htext(s, x, y,
     highlight_colors: list of highlight colors
     highlight_weights = ['regular']: the fontweight used for highlighted text
     highlight_styles = ['normal']: the fontstyle used for highlighted text
-    string_weight = 'regular': the fontweight used for normal text
-    string_style = 'normal': the fontstyle used for normal text
+    fontweight = 'regular': the fontweight used for normal text
+    fontstyle = 'normal': the fontstyle used for normal text
     ax: axes to draw the text onto
     delim = ['<', '>']: delimiters to enclose the highlight substrings
     va = 'bottom', textalignment has to be in ['bottom', 'top', 'center']
@@ -51,6 +55,10 @@ def htext(s, x, y,
 
     a list of texts
     '''
+
+    if color is None:
+        color = mpl.rcParams['text.color']
+
     def is_empty_string(string):
         return string.strip() == ''
 
@@ -72,7 +80,7 @@ def htext(s, x, y,
     if len(highlight_colors) == 1:
         highlight_colors = np.repeat(highlight_colors, n_highlights)
     else:
-        assert n_highlights == len(highlight_colors), f'You should specify either one highlight color or the same number as text highlights.\nYou input {n_highlights} highlights and {len(highlight_colors)} colors.'    
+        assert n_highlights == len(highlight_colors), f'You should specify either one highlight color or the same number as text highlights.\nYou input {n_highlights} highlights and {len(highlight_colors)} colors.'
 
     if len(highlight_weights) == 1:
         highlight_weights = np.repeat(highlight_weights, n_highlights)
@@ -114,12 +122,12 @@ def htext(s, x, y,
                 if i % 2 == 1:
                     colors.append(highlight_colors[highlight_count])
                     weights.append(highlight_weights[highlight_count])
-                    styles.append(highlight_styles[highlight_count])                
+                    styles.append(highlight_styles[highlight_count])
                     highlight_count += 1
                 else:
                     colors.append(color)
-                    weights.append(string_weight)
-                    styles.append(string_style)
+                    weights.append(fontweight)
+                    styles.append(fontstyle)
 
             texts = []
 
@@ -141,8 +149,8 @@ def htext(s, x, y,
 
             textline_hight = tcboxes[0, -1] - tcboxes[0, 1]
             textline_widths.append((tcboxes[:, 2] - tcboxes[:, 0]).sum())
-            textbox_hight = (tcboxes[0, -1] - tcboxes[0, 1]) * (len(text_rows)
-                            + (len(text_rows) - 1) * linespacing)
+            textbox_hight = ((tcboxes[0, -1] - tcboxes[0, 1]) * (len(text_rows)
+                             + (len(text_rows) - 1) * linespacing))
 
             textline_xs.append(np.hstack([tcboxes[0, 0],
                                           tcboxes[0, 0]
@@ -179,20 +187,20 @@ def htext(s, x, y,
     return row_texts
 
 
-def fig_htext(s, x, y,
-              color='k',    
-              highlight_colors=['C1'],
-              highlight_weights=['regular'],
-              highlight_styles=['normal'],
-              string_weight='regular',
-              string_style='normal',
-              fig=None,       
-              delim=['<', '>'],
-              va='bottom',
-              ha='left',
-              hpadding=0,
-              linespacing=0.25,
-              **kwargs):
+def fig_text(x, y, s,
+             color=None,
+             highlight_colors=['C1'],
+             highlight_weights=['regular'],
+             highlight_styles=['normal'],
+             fontweight='regular',
+             fontstyle='normal',
+             fig=None,
+             delim=['<', '>'],
+             va='bottom',
+             ha='left',
+             hpadding=0,
+             linespacing=0.25,
+             **kwargs):
     '''
     Takes a string with substrings in delimiters = ['<', '>']
     to be highlighted according to highlight colors:
@@ -210,8 +218,8 @@ def fig_htext(s, x, y,
     highlight_colors: list of highlight colors
     highlight_weights = ['regular']: the fontweight used for highlighted text
     highlight_styles = ['normal']: the fontstyle used for highlighted text
-    string_weight = 'regular': the fontweight used for normal text
-    string_style = 'normal': the fontstyle used for normal text
+    fontweight = 'regular': the fontweight used for normal text
+    fontstyle = 'normal': the fontstyle used for normal text
     delim = ['<', '>']: delimiters to enclose the highlight substrings
     va = 'bottom', textalignment has to be in ['bottom', 'top', 'center']
     ha = 'left', textalignment has to be in ['left', 'right', 'center']
@@ -224,6 +232,10 @@ def fig_htext(s, x, y,
 
     a list of texts
     '''
+
+    if color is None:
+        color = mpl.rcParams['text.color']
+
     def is_empty_string(string):
         return string.strip() == ''
 
@@ -244,7 +256,7 @@ def fig_htext(s, x, y,
     if len(highlight_colors) == 1:
         highlight_colors = np.repeat(highlight_colors, n_highlights)
     else:
-        assert n_highlights == len(highlight_colors), f'You should specify either one highlight color or the same number as text highlights.\nYou input {n_highlights} highlights and {len(highlight_colors)} colors.'    
+        assert n_highlights == len(highlight_colors), f'You should specify either one highlight color or the same number as text highlights.\nYou input {n_highlights} highlights and {len(highlight_colors)} colors.'
 
     if len(highlight_weights) == 1:
         highlight_weights = np.repeat(highlight_weights, n_highlights)
@@ -285,12 +297,12 @@ def fig_htext(s, x, y,
                 if i % 2 == 1:
                     colors.append(highlight_colors[highlight_count])
                     weights.append(highlight_weights[highlight_count])
-                    styles.append(highlight_styles[highlight_count])                
+                    styles.append(highlight_styles[highlight_count])
                     highlight_count += 1
                 else:
                     colors.append(color)
-                    weights.append(string_weight)
-                    styles.append(string_style)
+                    weights.append(fontweight)
+                    styles.append(fontstyle)
 
             texts = []
 
@@ -312,8 +324,8 @@ def fig_htext(s, x, y,
 
             textline_hight = tcboxes[0, -1] - tcboxes[0, 1]
             textline_widths.append((tcboxes[:, 2] - tcboxes[:, 0]).sum())
-            textbox_hight = (tcboxes[0, -1] - tcboxes[0, 1]) * (len(text_rows)
-                             + (len(text_rows) - 1) * linespacing)
+            textbox_hight = ((tcboxes[0, -1] - tcboxes[0, 1]) * (len(text_rows)
+                             + (len(text_rows) - 1) * linespacing))
 
             textline_xs.append(np.hstack([tcboxes[0, 0],
                                           tcboxes[0, 0]
