@@ -19,6 +19,7 @@ def ax_text(x, y, s,
             ha='left',
             hpadding=0,
             linespacing=0.25,
+            text_in_layout=True,
             **kwargs):
     '''
     NOTE: do not use plt.tight_layout() after using this
@@ -56,6 +57,8 @@ def ax_text(x, y, s,
     ha = 'left', textalignment has to be in ['left', 'right', 'center']
     hpadding = 0: extra padding between highlight and normal text
     linespacing = 0.25: linespacing in factor of font height between rows
+    text_in_layout = True: if set to False, text overflowing the axes will not cause the constrained layout
+                           to adjust the axes sizes within the figure.
     **kwargs: figure.text kwargs for all text
 
     Returns:
@@ -244,6 +247,9 @@ def ax_text(x, y, s,
                                                foreground=pe_foreground),
                                                path_effects.Normal()])
                     texts.append(text_)
+
+            if not text_in_layout:
+                text_.set_in_layout(False)
 
             fig.canvas.draw()
 
