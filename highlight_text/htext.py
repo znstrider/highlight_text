@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import matplotlib.patheffects as path_effects
 
 
 def ax_text(x, y, s,
@@ -10,6 +11,8 @@ def ax_text(x, y, s,
             highlight_styles=['normal'],
             fontweight='regular',
             fontstyle='normal',
+            path_effect_kws=None,
+            bbox_kws=None,
             ax=None,
             delim=['<', '>'],
             va='bottom',
@@ -42,6 +45,11 @@ def ax_text(x, y, s,
     highlight_styles = ['normal']: the fontstyle used for highlighted text
     fontweight = 'regular': the fontweight used for normal text
     fontstyle = 'normal': the fontstyle used for normal text
+    path_effect_kws = None: list of dicts of 'linewidth' and 'foreground' or None for a path_effects.Stroke()
+                            for each highlighted subtext, or one dict applied to all highlighted subtexts
+    bbox_kws = None: list of dicts of 'alpha', 'boxstyle', 'edgecolor', 'facecolor', 'linewidth' and 'pad'
+                     or None for plt.text bbox props for each highlighted subtext,
+                     or one dict applied to all highlighted subtexts
     ax: axes to draw the text onto
     delim = ['<', '>']: delimiters to enclose the highlight substrings
     va = 'bottom', textalignment has to be in ['bottom', 'top', 'center']
@@ -92,6 +100,24 @@ def ax_text(x, y, s,
     else:
         assert n_highlights == len(highlight_styles), f'You should specify either one highlight style or the same number as text highlights.\nYou input {n_highlights} highlights and {len(highlight_styles)} styles.'
 
+    if type(path_effect_kws) == list:
+        if len(path_effect_kws) == 1:
+            path_effect_kws = path_effect_kws[0]
+
+    if (path_effect_kws is None)|(type(path_effect_kws) == dict):
+        path_effect_kws = np.repeat([path_effect_kws], n_highlights)
+    else:
+        assert n_highlights == len(path_effect_kws), f'You should specify either one path_effect_kws dict or the same number as text highlights.\nYou input {n_highlights} highlights and {len(path_effect_kws)} styles.'            
+
+    if type(bbox_kws) == list:
+        if len(bbox_kws) == 1:
+            bbox_kws = bbox_kws[0]
+
+    if (bbox_kws is None) | (type(bbox_kws) == dict):
+        bbox_kws = np.repeat([bbox_kws], n_highlights)
+    else:
+        assert n_highlights == len(bbox_kws), f'You should specify either one bbox_kws dict or the same number as text highlights.\nYou input {n_highlights} highlights and {len(bbox_kws)} styles.'            
+
     assert va in ['top', 'bottom', 'center'], "Specify either 'top', 'bottom' or 'center' for va"
     assert ha in ['left', 'right', 'center'], "Specify either 'left', 'right' or 'center' for ha"
 
@@ -117,25 +143,108 @@ def ax_text(x, y, s,
             colors = []
             weights = []
             styles = []
+            pe_linewidths = []
+            pe_foregrounds = []
+            bbox_edgecolors = []
+            bbox_facecolors = []
+            bbox_alphas = []
+            bbox_boxstyles = []
+            bbox_linewidths = []
+            bbox_pads = []
 
             for i in range(len(split_text)):
                 if i % 2 == 1:
                     colors.append(highlight_colors[highlight_count])
                     weights.append(highlight_weights[highlight_count])
                     styles.append(highlight_styles[highlight_count])
+
+                    if path_effect_kws[highlight_count] is not None:
+                        pe_linewidths.append(path_effect_kws[highlight_count]['linewidth'])
+                        pe_foregrounds.append(path_effect_kws[highlight_count]['foreground'])
+                    else:
+                        pe_linewidths.append(None)
+                        pe_foregrounds.append(None)
+
+                    if bbox_kws[highlight_count] is not None:
+                        if 'edgecolor' in bbox_kws[highlight_count].keys():
+                            bbox_edgecolors.append(bbox_kws[highlight_count]['edgecolor'])
+                        else:
+                            bbox_edgecolors.append('None')
+                        if 'facecolor' in bbox_kws[highlight_count].keys():
+                            bbox_facecolors.append(bbox_kws[highlight_count]['facecolor'])
+                        else:
+                            bbox_facecolors.append('None')
+                        if 'alpha' in bbox_kws[highlight_count].keys():
+                            bbox_alphas.append(bbox_kws[highlight_count]['alpha'])
+                        else:
+                            bbox_alphas.append(None)
+                        if 'boxstyle' in bbox_kws[highlight_count].keys():
+                            bbox_boxstyles.append(bbox_kws[highlight_count]['boxstyle'])
+                        else:
+                            bbox_boxstyles.append(None)
+                        if 'linewidth' in bbox_kws[highlight_count].keys():
+                            bbox_linewidths.append(bbox_kws[highlight_count]['linewidth'])
+                        else:
+                            bbox_linewidths.append(1)
+                        if 'pad' in bbox_kws[highlight_count].keys():
+                            bbox_pads.append(bbox_kws[highlight_count]['pad'])
+                        else:
+                            bbox_pads.append(0.3)
+                    else:
+                        bbox_edgecolors.append('None')
+                        bbox_facecolors.append('None')
+                        bbox_alphas.append(None)
+                        bbox_boxstyles.append(None)
+                        bbox_linewidths.append(None)
+                        bbox_pads.append(None)
                     highlight_count += 1
                 else:
                     colors.append(color)
                     weights.append(fontweight)
                     styles.append(fontstyle)
+                    pe_linewidths.append(None)
+                    pe_foregrounds.append(None)
+                    bbox_edgecolors.append('None')
+                    bbox_facecolors.append('None')
+                    bbox_alphas.append(None)
+                    bbox_boxstyles.append(None)
+                    bbox_linewidths.append(None)
+                    bbox_pads.append(None)
 
             texts = []
 
-            for text, color, weight, style in zip(split_text, colors, weights, styles):
+            for text, color, weight, style, pe_linewidth, pe_foreground, bbox_edgecolor, bbox_facecolor, bbox_alpha, bbox_boxstyle, bbox_linewidth, bbox_pad\
+                in zip(split_text, colors, weights, styles, pe_linewidths, pe_foregrounds,
+                       bbox_edgecolors, bbox_facecolors, bbox_alphas, bbox_boxstyles, bbox_linewidths, bbox_pads):
                 if text != '':
-                    texts.append(ax.text(s=text, x=x, y=y, color=color,
-                                         fontweight=weight, fontstyle=style,
-                                         ha='left', va='top', **kwargs))
+                    if not all((item is None) | (item == 'None') for item in [bbox_edgecolor, bbox_facecolor, bbox_alpha, bbox_boxstyle, bbox_linewidth, bbox_pad]):
+                        bbox_dict = dict(edgecolor=bbox_edgecolor,
+                                         facecolor=bbox_facecolor,
+                                         alpha=bbox_alpha,
+                                         boxstyle=bbox_boxstyle,
+                                         linewidth=bbox_linewidth,
+                                         pad=bbox_pad)
+                    else:
+                        bbox_dict = None
+
+                    text_ = ax.text(s=text, x=x, y=y, color=color,
+                                    fontweight=weight,
+                                    fontstyle=style,
+                                    bbox=bbox_dict,
+                                    ha='left', va='top', **kwargs)
+
+                    if (pe_linewidth is not None) | (pe_foreground is not None):
+
+                        if pe_linewidth is None:
+                            pe_linewidth = 1
+                        if pe_linewidth is None:
+                            pe_foreground = plt.gcf().get_facecolor()
+
+                        text_.set_path_effects([path_effects.Stroke(linewidth=pe_linewidth,
+                                               foreground=pe_foreground),
+                                               path_effects.Normal()])
+                    texts.append(text_)
+
             fig.canvas.draw()
 
             tcboxes = []
@@ -194,6 +303,8 @@ def fig_text(x, y, s,
              highlight_styles=['normal'],
              fontweight='regular',
              fontstyle='normal',
+             path_effect_kws=None,
+             bbox_kws=None,
              fig=None,
              delim=['<', '>'],
              va='bottom',
@@ -220,6 +331,11 @@ def fig_text(x, y, s,
     highlight_styles = ['normal']: the fontstyle used for highlighted text
     fontweight = 'regular': the fontweight used for normal text
     fontstyle = 'normal': the fontstyle used for normal text
+    path_effect_kws = None: list of dicts of 'linewidth' and 'foreground' or None for a path_effects.Stroke()
+                            for each highlighted subtext, or one dict applied to all highlighted subtexts
+    bbox_kws = None: list of dicts of 'alpha', 'boxstyle', 'edgecolor', 'facecolor', 'linewidth' and 'pad'
+                     or None for plt.text bbox props for each highlighted subtext,
+                     or one dict applied to all highlighted subtexts
     delim = ['<', '>']: delimiters to enclose the highlight substrings
     va = 'bottom', textalignment has to be in ['bottom', 'top', 'center']
     ha = 'left', textalignment has to be in ['left', 'right', 'center']
@@ -268,6 +384,24 @@ def fig_text(x, y, s,
     else:
         assert n_highlights == len(highlight_styles), f'You should specify either one highlight style or the same number as text highlights.\nYou input {n_highlights} highlights and {len(highlight_styles)} styles.'
 
+    if type(path_effect_kws) == list:
+        if len(path_effect_kws) == 1:
+            path_effect_kws = path_effect_kws[0]
+
+    if (path_effect_kws is None) | (type(path_effect_kws) == dict):
+        path_effect_kws = np.repeat([path_effect_kws], n_highlights)
+    else:
+        assert n_highlights == len(path_effect_kws), f'You should specify either one path_effect_kws dict or the same number as text highlights.\nYou input {n_highlights} highlights and {len(path_effect_kws)} styles.'            
+
+    if type(bbox_kws) == list:
+        if len(bbox_kws) == 1:
+            bbox_kws = bbox_kws[0]
+
+    if (bbox_kws is None) | (type(bbox_kws) == dict):
+        bbox_kws = np.repeat([bbox_kws], n_highlights)
+    else:
+        assert n_highlights == len(bbox_kws), f'You should specify either one bbox_kws dict or the same number as text highlights.\nYou input {n_highlights} highlights and {len(bbox_kws)} styles.'            
+
     assert va in ['top', 'bottom', 'center'], "Specify either 'top', 'bottom' or 'center' for va"
     assert ha in ['left', 'right', 'center'], "Specify either 'left', 'right' or 'center' for ha"
 
@@ -287,30 +421,114 @@ def fig_text(x, y, s,
             # set next lines y
             y = y - textline_hight * (1 + linespacing)
         else:
-            split_text = sum([substring.split(delim[1]) for substring in text_row.split(delim[0])], [])
+            split_text = sum([substring.split(delim[1])
+                              for substring in text_row.split(delim[0])], [])
 
             colors = []
             weights = []
             styles = []
+            pe_linewidths = []
+            pe_foregrounds = []
+            bbox_edgecolors = []
+            bbox_facecolors = []
+            bbox_alphas = []
+            bbox_boxstyles = []
+            bbox_linewidths = []
+            bbox_pads = []
 
             for i in range(len(split_text)):
                 if i % 2 == 1:
                     colors.append(highlight_colors[highlight_count])
                     weights.append(highlight_weights[highlight_count])
                     styles.append(highlight_styles[highlight_count])
+
+                    if path_effect_kws[highlight_count] is not None:
+                        pe_linewidths.append(path_effect_kws[highlight_count]['linewidth'])
+                        pe_foregrounds.append(path_effect_kws[highlight_count]['foreground'])
+                    else:
+                        pe_linewidths.append(None)
+                        pe_foregrounds.append(None)
+
+                    if bbox_kws[highlight_count] is not None:
+                        if 'edgecolor' in bbox_kws[highlight_count].keys():
+                            bbox_edgecolors.append(bbox_kws[highlight_count]['edgecolor'])
+                        else:
+                            bbox_edgecolors.append('None')
+                        if 'facecolor' in bbox_kws[highlight_count].keys():
+                            bbox_facecolors.append(bbox_kws[highlight_count]['facecolor'])
+                        else:
+                            bbox_facecolors.append('None')
+                        if 'alpha' in bbox_kws[highlight_count].keys():
+                            bbox_alphas.append(bbox_kws[highlight_count]['alpha'])
+                        else:
+                            bbox_alphas.append(None)
+                        if 'boxstyle' in bbox_kws[highlight_count].keys():
+                            bbox_boxstyles.append(bbox_kws[highlight_count]['boxstyle'])
+                        else:
+                            bbox_boxstyles.append(None)
+                        if 'linewidth' in bbox_kws[highlight_count].keys():
+                            bbox_linewidths.append(bbox_kws[highlight_count]['linewidth'])
+                        else:
+                            bbox_linewidths.append(1)
+                        if 'pad' in bbox_kws[highlight_count].keys():
+                            bbox_pads.append(bbox_kws[highlight_count]['pad'])
+                        else:
+                            bbox_pads.append(0.3)
+                    else:
+                        bbox_edgecolors.append('None')
+                        bbox_facecolors.append('None')
+                        bbox_alphas.append(None)
+                        bbox_boxstyles.append(None)
+                        bbox_linewidths.append(None)
+                        bbox_pads.append(None)
                     highlight_count += 1
                 else:
                     colors.append(color)
                     weights.append(fontweight)
                     styles.append(fontstyle)
+                    pe_linewidths.append(None)
+                    pe_foregrounds.append(None)
+                    bbox_edgecolors.append('None')
+                    bbox_facecolors.append('None')
+                    bbox_alphas.append(None)
+                    bbox_boxstyles.append(None)
+                    bbox_linewidths.append(None)
+                    bbox_pads.append(None)
 
             texts = []
 
-            for text, color, weight, style in zip(split_text, colors, weights, styles):
+            for text, color, weight, style, pe_linewidth, pe_foreground, bbox_edgecolor, bbox_facecolor, bbox_alpha, bbox_boxstyle, bbox_linewidth, bbox_pad\
+                in zip(split_text, colors, weights, styles, pe_linewidths, pe_foregrounds,
+                       bbox_edgecolors, bbox_facecolors, bbox_alphas, bbox_boxstyles, bbox_linewidths, bbox_pads):
                 if text != '':
-                    texts.append(fig.text(s=text, x=x, y=y, color=color,
-                                 fontweight=weight, fontstyle=style,
-                                 ha='left', va='top', **kwargs))
+                    if not all((item is None) | (item == 'None') for item in [bbox_edgecolor, bbox_facecolor, bbox_alpha, bbox_boxstyle, bbox_linewidth, bbox_pad]):
+                        bbox_dict = dict(edgecolor=bbox_edgecolor,
+                                         facecolor=bbox_facecolor,
+                                         alpha=bbox_alpha,
+                                         boxstyle=bbox_boxstyle,
+                                         linewidth=bbox_linewidth,
+                                         pad=bbox_pad)
+                    else:
+                        bbox_dict = None
+
+                    text_ = fig.text(s=text, x=x, y=y, color=color,
+                                     fontweight=weight,
+                                     fontstyle=style,
+                                     bbox=bbox_dict,
+                                     ha='left', va='top', **kwargs)
+
+                    if (pe_linewidth is not None) | (pe_foreground is not None):
+
+                        if pe_linewidth is None:
+                            pe_linewidth = 1
+                        if pe_linewidth is None:
+                            pe_foreground = plt.gcf().get_facecolor()
+
+                        text_.set_path_effects([path_effects.Stroke(linewidth=pe_linewidth,
+                                                foreground=pe_foreground),
+                                                path_effects.Normal()])
+                    texts.append(text_)
+
             fig.canvas.draw()
 
             tcboxes = []
