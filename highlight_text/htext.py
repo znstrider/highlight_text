@@ -58,7 +58,8 @@ def ax_text(x, y, s,
     hpadding = 0: extra padding between highlight and normal text
     linespacing = 0.25: linespacing in factor of font height between rows
     text_in_layout = True: if set to False, text overflowing the axes will not cause the constrained layout
-                           to adjust the axes sizes within the figure.
+                           to adjust the axes sizes within the figure. This prevents ax_text from not working
+                           properly in this case.
     **kwargs: figure.text kwargs for all text
 
     Returns:
@@ -107,7 +108,7 @@ def ax_text(x, y, s,
         if len(path_effect_kws) == 1:
             path_effect_kws = path_effect_kws[0]
 
-    if (path_effect_kws is None)|(type(path_effect_kws) == dict):
+    if (path_effect_kws is None) | (type(path_effect_kws) == dict):
         path_effect_kws = np.repeat([path_effect_kws], n_highlights)
     else:
         assert n_highlights == len(path_effect_kws), f'You should specify either one path_effect_kws dict or the same number as text highlights.\nYou input {n_highlights} highlights and {len(path_effect_kws)} styles.'            
