@@ -258,7 +258,7 @@ def ax_text(x, y, s,
 
             for text in texts:
                 # display coordinates
-                box = text.get_window_extent()
+                box = text.get_window_extent(renderer=fig.canvas.get_renderer())
                 # transform back into Data coordinates
                 tcboxes.append(ax.transData.inverted().transform(box).ravel())
             tcboxes = np.stack(tcboxes)
@@ -542,7 +542,7 @@ def fig_text(x, y, s,
 
             for text in texts:
                 # display coordinates
-                box = text.get_window_extent()
+                box = text.get_window_extent(renderer=fig.canvas.get_renderer())
                 # transform back into Data coordinates
                 tcboxes.append(fig.transFigure.inverted().transform(box).ravel())
             tcboxes = np.stack(tcboxes)
