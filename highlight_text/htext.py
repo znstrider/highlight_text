@@ -163,8 +163,8 @@ def ax_text(x, y, s,
                     styles.append(highlight_styles[highlight_count])
 
                     if path_effect_kws[highlight_count] is not None:
-                        pe_linewidths.append(path_effect_kws[highlight_count]['linewidth'])
-                        pe_foregrounds.append(path_effect_kws[highlight_count]['foreground'])
+                        pe_linewidths.append(path_effect_kws[highlight_count].pop('linewidth', 1))
+                        pe_foregrounds.append(path_effect_kws[highlight_count].pop('foreground', ax.get_facecolor()))
                     else:
                         pe_linewidths.append(None)
                         pe_foregrounds.append(None)
@@ -450,8 +450,8 @@ def fig_text(x, y, s,
                     styles.append(highlight_styles[highlight_count])
 
                     if path_effect_kws[highlight_count] is not None:
-                        pe_linewidths.append(path_effect_kws[highlight_count]['linewidth'])
-                        pe_foregrounds.append(path_effect_kws[highlight_count]['foreground'])
+                        pe_linewidths.append(path_effect_kws[highlight_count].pop('linewidth', 1))
+                        pe_foregrounds.append(path_effect_kws[highlight_count].pop('foreground', fig.get_facecolor()))
                     else:
                         pe_linewidths.append(None)
                         pe_foregrounds.append(None)
