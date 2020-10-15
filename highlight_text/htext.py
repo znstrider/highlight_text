@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as path_effects
-import warnings
 
 
 def ax_text(x, y, s,
@@ -261,16 +260,7 @@ def ax_text(x, y, s,
                 # display coordinates
                 box = text.get_window_extent(renderer=fig.canvas.get_renderer())
                 # transform back into Data coordinates
-                box_data_coords = ax.transData.inverted().transform(box)
-                tcboxes.append(box_data_coords.ravel())
-
-                if (box_data_coords > 1).any():
-                    warnings.warn(f'The text {text.get_text()} is overspilling the axes boundary. '
-                                   'This can result in unwanted behavior for ax_text. '
-                                   'You can try increasing the figure or axes size, or use fig_text instead. '
-                                   'If the text does not overspill the figure boundary, you can also set '
-                                   'text_in_layout=False.')
-
+                tcboxes.append(ax.transData.inverted().transform(box).ravel())
             tcboxes = np.stack(tcboxes)
 
             textline_hight = tcboxes[0, -1] - tcboxes[0, 1]
