@@ -265,7 +265,7 @@ def ax_text(x, y, s,
                 tcboxes.append(box_data_coords.ravel())
 
                 if (box_data_coords > 1).any():
-                    warnings.warn(f'The text {text.get_text()} is overspilling the axes boundary. '
+                    warnings.warn(f'The text "{text.get_text()}" is overspilling the axes boundary. '
                                    'This can result in unwanted behavior for ax_text. '
                                    'You can try increasing the figure or axes size, or use fig_text instead. '
                                    'If the text does not overspill the figure boundary, you can also set '
