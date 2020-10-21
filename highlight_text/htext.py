@@ -22,17 +22,17 @@ def ax_text(x, y, s,
             linespacing=0.25,
             **kwargs):
     '''
-    NOTE: do not use plt.tight_layout() after using this
-    method as it adjusts the margins and spacing. Better to
-    use constrained_layout=True as an arg when you create figure.
+    NOTE: Make sure to do all plotting and setting of axes limits
+    BEFORE using ax_text.
+    Specifically do not use plt.tight_layout() after using this
+    method as it adjusts the margins and spacing.
+    Better to use constrained_layout=True as an arg when you create figure.
+
     Takes a string with substrings delimiters = ['<', '>']
     to be highlighted according to highlight colors:
     'The weather is <sunny> today. Yesterday it <rained>.',
     color = 'k', highlight_colors = ['yellow', 'grey']
     prints the text with 'sunny' as yellow and 'rained' as grey.
-
-    Make sure to set data limits before using this function.
-    Otherwise the data transformation will not show properly.
 
     Parameters:
     ##########
