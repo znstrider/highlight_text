@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as path_effects
+import warnings
 
 
 def ax_text(x, y, s,
@@ -19,7 +20,6 @@ def ax_text(x, y, s,
             ha='left',
             hpadding=0,
             linespacing=0.25,
-            text_in_layout=True,
             **kwargs):
     '''
     NOTE: do not use plt.tight_layout() after using this
@@ -57,10 +57,7 @@ def ax_text(x, y, s,
     ha = 'left', textalignment has to be in ['left', 'right', 'center']
     hpadding = 0: extra padding between highlight and normal text
     linespacing = 0.25: linespacing in factor of font height between rows
-    text_in_layout = True: if set to False, text overflowing the axes will not cause the constrained layout
-                           to adjust the axes sizes within the figure. This prevents ax_text from not working
-                           properly in this case.
-    **kwargs: figure.text kwargs for all text
+    **kwargs: ax.text kwargs for all text
 
     Returns:
     ##########
@@ -130,16 +127,17 @@ def ax_text(x, y, s,
     while is_empty_string(text_rows[0]):
         text_rows = text_rows[1:]
 
-    textline_hight = 0
+    textline_height = 0
     textline_widths = []
     textline_xs = []
     row_texts = []
     highlight_count = 0
+    text_in_axes_bounds = True
 
     for text_row in text_rows:
         if is_empty_string(text_row):
             # set next lines y
-            y = y - textline_hight * (1 + linespacing)
+            y = y - textline_height * (1 + linespacing)
         else:
             split_text = sum([substring.split(delim[1])
                               for substring in text_row.split(delim[0])], [])
@@ -249,9 +247,6 @@ def ax_text(x, y, s,
                                                path_effects.Normal()])
                     texts.append(text_)
 
-            if not text_in_layout:
-                text_.set_in_layout(False)
-
             fig.canvas.draw()
 
             tcboxes = []
@@ -263,10 +258,10 @@ def ax_text(x, y, s,
                 tcboxes.append(ax.transData.inverted().transform(box).ravel())
             tcboxes = np.stack(tcboxes)
 
-            textline_hight = tcboxes[0, -1] - tcboxes[0, 1]
+            textline_height = tcboxes[0, -1] - tcboxes[0, 1]
             textline_widths.append((tcboxes[:, 2] - tcboxes[:, 0]).sum())
-            textbox_hight = ((tcboxes[0, -1] - tcboxes[0, 1]) * (len(text_rows)
-                             + (len(text_rows) - 1) * linespacing))
+            textbox_height = ((tcboxes[0, -1] - tcboxes[0, 1]) * (len(text_rows)
+                              + (len(text_rows) - 1) * linespacing))
 
             textline_xs.append(np.hstack([tcboxes[0, 0],
                                           tcboxes[0, 0]
@@ -275,13 +270,13 @@ def ax_text(x, y, s,
 
             if va == 'bottom':
                 for text in texts:
-                    text.set_y(y + textbox_hight)
+                    text.set_y(y + textbox_height)
 
             elif va == 'center':
                 for text in texts:
-                    text.set_y(y + 0.5 * textbox_hight)
+                    text.set_y(y + 0.5 * textbox_height)
 
-            y = tcboxes[0, 1] - textline_hight * linespacing
+            y = tcboxes[0, 1] - textline_height * linespacing
 
             row_texts.append(texts)
 
@@ -299,6 +294,22 @@ def ax_text(x, y, s,
 
         for x_, text in zip(xs, texts):
             text.set_x(x_)
+
+        # check if texts overflow axes boundary
+        if (
+            ((texts[0].get_position()[0] + textline_width) > 1) |
+            ((texts[0].get_position()[1] + textline_height) > 1) |
+            (texts[0].get_position()[0] < 0) |
+            (texts[0].get_position()[1] < 0)
+           ):
+            text_in_axes_bounds = False
+
+    if text_in_axes_bounds is False:
+        warnings.warn(f'The text is reaching outside the axes boundary. '
+                      'This can result in unwanted behavior for ax_text. '
+                      'You can try increasing the figure or axes size, or use fig_text instead. '
+                      'If the text does not overspill the figure boundary, you can also set the '
+                      'ax.text **kwarg in_layout=False.')
 
     return row_texts
 
