@@ -1,6 +1,17 @@
 ![png](/examples/highlight_text_logo.png)
 
-# highlight_text
+---
+## This is a not fully tested full refactoring of the package.
+
+You can download the code of the full_refactor branch or clone the repository and install the package locally
+with `pip install -e .` in developer mode from the cloned directory.  
+Then change to the full_refactor branch by `git checkout full_refactor` and restart your notebooks / rerun your script.
+
+If you encounter any problems, please let me know.  
+
+---
+
+# highlight_text  
 
 This package provides a HighlightText class and two wrapper functions that allow you to plot text with `<highlighted substrings>` in matplotlib:
  - ax_text for plotting onto an axes in data coordinates.  
@@ -197,9 +208,9 @@ We can also place a Bounding Box around the whole AnnotationBbox that holds all 
 ```
 
 
-# Installation
+# Note:
 
-    pip install highlight-text
+    pip install highlight-text installs the prior stable version and not this refactor.
 
 
 ![png](/examples/htext.png)
