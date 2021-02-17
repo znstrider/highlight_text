@@ -30,9 +30,6 @@ class HighlightRow:
         if highlight_textprops is not None:
             assert len(highlight_textprops) == self._n_highlights, f'Number of highlights ({self._n_highlights}) should be equal to number of highlight_textprops ({len(highlight_textprops)})'
         self._highlight_textprops = highlight_textprops
-        # if highlight_insets is not None:
-        #     assert len(highlight_insets) == self._n_highlights, f'Number of highlights ({self._n_highlights}) should be equal to number of highlight_textprops ({len(highlight_insets)})'
-        # self.highlight_insets = highlight_insets
         self._delim = delim
         self._rowtext = s
         self._set_row_substrings()
@@ -95,21 +92,6 @@ class HighlightRow:
         """creates an HPacker with all row substrings as children"""
         self._hpacker = HPacker(children=self._text_areas, align="left", pad=self._pad, sep=self._sep)
 
-    '''
-    def create_highlight_insets(self):
-        """
-        creates axes insets above the bboxes of the TextAreas for which highlight_inset = True
-        """
-        for i, (make_inset, text_area) in enumerate(zip(self.highlight_insets, self._text_areas)):
-            if make_inset:
-                # create the inset and store it in self.highlight_insets
-                inset = bbox_axes_inset(text_area)
-                self.highlight_insets[i] = inset
-            else:
-                # set the _highlight_inset to None
-                self.highlight_insets[i] = None        
-    '''
-
 
 class HighlightText:
     """
@@ -118,21 +100,20 @@ class HighlightText:
 
     textprop **kwargs for all texts that can be overridden
     with substring specific textprops either:
-        by using `::{"size": 12, "color": 'yellow'}` within the <highlighted> substring.
+        by using `::{"size": 12, "color": 'yellow'}` at the end of the <highlighted> substring.
         or by using highlight_textprops = [{"size": 12, "color": 'yellow'}]
 
     example: HighlightText(s='The weather is <sunny::{"color": "yellow"}>\n'
                              'Yesterday it was <cloudy::{"color": "grey"}>', x=0.25, y=0.5)
 
-              HighlightText(s='The weather is <sunny>\nYesterday it was <cloudy>', x=0.25, y=0.5,
-                            highlight_textprops=[{"color": 'yellow'},
-                                                 {"color": 'grey'}])
+             HighlightText(s='The weather is <sunny>\nYesterday it was <cloudy>', x=0.25, y=0.5,
+                           highlight_textprops=[{"color": 'yellow'},
+                                                {"color": 'grey'}])
 
     building on: https://stackoverflow.com/questions/63659519/plotting-text-using-textarea-and-annotationbbox-in-matplotlib
     """
     def __init__(self, x, y, s, ha='left', va='top',
                  highlight_textprops=None,
-                 # highlight_insets=None,
                  textalign='left',
                  delim=('<', '>'),
                  annotationbbox_kw={},
@@ -169,9 +150,6 @@ class HighlightText:
         if highlight_textprops is not None:
             assert len(highlight_textprops) == sum(self._highlights_per_row), f'Number of highlights ({sum(self._highlights_per_row)}) should be equal to number of highlight_textprops ({len(highlight_textprops)})'
         self._highlight_textprops = highlight_textprops
-        # if highlight_insets is not None:
-        #     assert len(highlight_insets) == sum(self._highlights_per_row), f'Number of highlights ({sum(self._highlights_per_row)}) should be equal to number of highlight_insets ({len(highlight_insets)})'
-        # self.highlight_insets = highlight_insets
         self._n_rows = len(self._textrows)
         self._set_box_alignment(ha, va)
         self._set_highlight_rows()
@@ -212,13 +190,10 @@ class HighlightText:
         for i, row in enumerate(self._textrows):
             if self._highlight_textprops is not None:
                 row_highlight_textprops = self._highlight_textprops[sum(self._highlights_per_row[:i]):sum(self._highlights_per_row[:i+1])]
-                # row_highlight_insets = self.highlight_insets[sum(self._highlights_per_row[:i]):sum(self._highlights_per_row[:i+1])]
             else:
                 row_highlight_textprops = None
-                # row_highlight_insets = None
             highlight_row = HighlightRow(row, pad=self._hpad, sep=self._hsep, delim=self._delim,
-                                         highlight_textprops=row_highlight_textprops, 
-                                         # highlight_insets=row_highlight_insets, 
+                                         highlight_textprops=row_highlight_textprops,
                                          **self._textprops)
             self._highlight_rows.append(highlight_row)
             self._hpackers.append(highlight_row._hpacker)
@@ -247,17 +222,8 @@ class HighlightText:
                                               box_alignment=self.box_alignment,
                                               **self._annotationbbox_kw)
 
-        # self._fig.canvas.draw()
         if self._add_artist:
             self._ax.add_artist(self.annotation_bbox)
-
-        """        if any(self.highlight_insets):
-                self.highlight_insets = []
-                for hrow in self._highlight_rows:
-                    hrow.create_highlight_insets()
-                    print(hrow.highlight_insets)
-                    self.highlight_insets.append(hrow.highlight_insets)
-                self.highlight_insets = [item for sublist in self.highlight_insets for item in sublist]  """ 
 
     def make_highlight_insets(self, make_highlight_insets):
 
@@ -289,7 +255,7 @@ class HighlightText:
         ----------
         obj : a matplotlib object with the get_window_extent function
         fig = None : a plt.figure object
-        zorder = -1 : float 
+        zorder = -1 : float
         axis = 'off' : bool or str - see help(plt.axis) for possible values
         facecolor = 'None': str
 
@@ -319,7 +285,6 @@ class HighlightText:
 
 def ax_text(x, y, s, ha='left', va='top',
             highlight_textprops=None,
-            # highlight_insets=None,
             textalign='left',
             delim=('<', '>'),
             annotationbbox_kw={},
@@ -328,10 +293,32 @@ def ax_text(x, y, s, ha='left', va='top',
             add_artist=True,
             vpad=0, vsep=4, hpad=0, hsep=0,
             **kwargs):
+    """wrapper around the HighlightText Class to continue known hightlight_text nomenclature
+
+    Args:
+        x (float): [description]
+        y (float): [description]
+        s (str): [description]
+        ha (str, optional): [description]. Defaults to 'left'.
+        va (str, optional): [description]. Defaults to 'top'.
+        highlight_textprops ([type], optional): [description]. Defaults to None.
+        textalign (str, optional): Text Alignment for the AnnotationBbox. Defaults to 'left'.
+        delim (tuple, optional): [description]. Defaults to ('<', '>').
+        annotationbbox_kw (dict, optional): [description]. Defaults to {}.
+        ax ([type], optional): [description]. Defaults to None.
+        fig ([type], optional): [description]. Defaults to None.
+        add_artist (bool, optional): [description]. Defaults to True.
+        vpad (int, optional): [description]. Defaults to 0.
+        vsep (int, optional): [description]. Defaults to 4.
+        hpad (int, optional): [description]. Defaults to 0.
+        hsep (int, optional): [description]. Defaults to 0.
+
+    Returns:
+        HighlightText: [description]
+    """
 
     return HighlightText(x, y, s, ha=ha, va=va,
                          highlight_textprops=highlight_textprops,
-                         # highlight_insets=highlight_insets,
                          textalign=textalign,
                          delim=delim,
                          annotationbbox_kw=annotationbbox_kw,
@@ -344,7 +331,6 @@ def ax_text(x, y, s, ha='left', va='top',
 
 def fig_text(x, y, s, ha='left', va='top',
              highlight_textprops=None,
-             # highlight_insets=None,
              textalign='left',
              delim=('<', '>'),
              annotationbbox_kw={},
@@ -353,6 +339,31 @@ def fig_text(x, y, s, ha='left', va='top',
              add_artist=True,
              vpad=0, vsep=4, hpad=0, hsep=0,
              **kwargs):
+    """wrapper around the HighlightText Class to continue known hightlight_text nomenclature
+
+    sets the Annotation boxcoords to fig.transFigure
+
+    Args:
+        x (float): [description]
+        y (float): [description]
+        s (str): [description]
+        ha (str, optional): [description]. Defaults to 'left'.
+        va (str, optional): [description]. Defaults to 'top'.
+        highlight_textprops (dict, optional): [description]. Defaults to None.
+        textalign (str, optional): Text Alignment for the AnnotationBbox. Defaults to 'left'.
+        delim (tuple, optional): [description]. Defaults to ('<', '>').
+        annotationbbox_kw (dict, optional): [description]. Defaults to {}.
+        ax ([type], optional): [description]. Defaults to None.
+        fig ([type], optional): [description]. Defaults to None.
+        add_artist (bool, optional): [description]. Defaults to True.
+        vpad (int, optional): [description]. Defaults to 0.
+        vsep (int, optional): [description]. Defaults to 4.
+        hpad (int, optional): [description]. Defaults to 0.
+        hsep (int, optional): [description]. Defaults to 0.
+
+    Returns:
+        HighlightText: [description]
+    """
 
     if fig is None:
         fig = plt.gcf()
@@ -361,7 +372,6 @@ def fig_text(x, y, s, ha='left', va='top',
 
     return HighlightText(x, y, s, ha=ha, va=va,
                          highlight_textprops=highlight_textprops,
-                         # highlight_insets=highlight_insets,
                          textalign=textalign,
                          delim=delim,
                          annotationbbox_kw=annotationbbox_kw,
