@@ -58,7 +58,7 @@ class HighlightRow:
             if not self._delim[1] in _s:
                 is_highlight.append(False)
             else:
-                s1, s2 = _s.split(self._delim[1])
+                _, s2 = _s.split(self._delim[1])
                 if s2 == '':
                     is_highlight.append(True)
                 else:
@@ -114,6 +114,7 @@ class HighlightText:
 
     building on: https://stackoverflow.com/questions/63659519/plotting-text-using-textarea-and-annotationbbox-in-matplotlib
     """
+
     def __init__(self, x, y, s, ha='left', va='top',
                  highlight_textprops=None,
                  textalign='left',
@@ -124,6 +125,26 @@ class HighlightText:
                  add_artist=True,
                  vpad=0, vsep=4, hpad=0, hsep=0,
                  **kwargs):
+        """Initialization of the HighlightText Class
+
+        Args:
+            x (float): x-position
+            y (float): y-position
+            s (str): textstring with <highlights>
+            ha (str, optional): horizontal alignment of the AnnotationBbox. Defaults to 'left'.
+            va (str, optional): vertical alignment of the AnnotationBbox. Defaults to 'top'.
+            highlight_textprops (dict, optional): list of textprops dictionaries. Defaults to None.
+            textalign (str, optional): Text Alignment for the AnnotationBbox. Defaults to 'left'.
+            delim (tuple, optional): characters that enclose <highlighted substrings>. Defaults to ('<', '>').
+            annotationbbox_kw (dict, optional): AnnotationBbox keywords. Defaults to {}.
+            ax (Axes, optional): Defaults to None.
+            fig (Figure, optional): Defaults to None.
+            add_artist (bool, optional): Whether to add the AnnotationBbox to the axes. Defaults to True.
+            vpad (int, optional): vertical padding of the HighlightRows. Defaults to 0.
+            vsep (int, optional): vertical seperation between the HighlightRows. Defaults to 4.
+            hpad (int, optional): horizontal padding of a rows TextAreas. Defaults to 0.
+            hsep (int, optional): horizontal seperation between a rows TextAreas. Defaults to 0.
+        """
 
         if ax is None:
             self._ax = plt.gca()
@@ -214,6 +235,11 @@ class HighlightText:
         self.is_highlight = [item for sublist in self.is_highlight for item in sublist]
 
     def get_highlight_areas(self):
+        """Get the Highlight TextArea Objects
+
+        Returns:
+            list: list of TextArea Objects
+        """
         return [text_area for text_area, is_highlight in zip(self.text_areas, self.is_highlight) if is_highlight]
 
     def _set_annotation_box(self):
@@ -228,6 +254,11 @@ class HighlightText:
             self._ax.add_artist(self.annotation_bbox)
 
     def make_highlight_insets(self, make_highlight_insets):
+        """creates axes insets for each text_highlight that is passed True
+
+        Args:
+            make_highlight_insets (list(bool)): list of booleans with len(get_highlight_areas())
+        """
 
         highlight_areas = self.get_highlight_areas()
 
@@ -295,28 +326,29 @@ def ax_text(x, y, s, ha='left', va='top',
             add_artist=True,
             vpad=0, vsep=4, hpad=0, hsep=0,
             **kwargs):
+
     """wrapper around the HighlightText Class to continue known hightlight_text nomenclature
 
     Args:
-        x (float): [description]
-        y (float): [description]
-        s (str): [description]
-        ha (str, optional): [description]. Defaults to 'left'.
-        va (str, optional): [description]. Defaults to 'top'.
-        highlight_textprops ([type], optional): [description]. Defaults to None.
+        x (float): x-position
+        y (float): y-position
+        s (str): textstring with <highlights>
+        ha (str, optional): horizontal alignment of the AnnotationBbox. Defaults to 'left'.
+        va (str, optional): vertical alignment of the AnnotationBbox. Defaults to 'top'.
+        highlight_textprops (dict, optional): list of textprops dictionaries. Defaults to None.
         textalign (str, optional): Text Alignment for the AnnotationBbox. Defaults to 'left'.
-        delim (tuple, optional): [description]. Defaults to ('<', '>').
-        annotationbbox_kw (dict, optional): [description]. Defaults to {}.
-        ax ([type], optional): [description]. Defaults to None.
-        fig ([type], optional): [description]. Defaults to None.
-        add_artist (bool, optional): [description]. Defaults to True.
-        vpad (int, optional): [description]. Defaults to 0.
-        vsep (int, optional): [description]. Defaults to 4.
-        hpad (int, optional): [description]. Defaults to 0.
-        hsep (int, optional): [description]. Defaults to 0.
+        delim (tuple, optional): characters that enclose <highlighted substrings>. Defaults to ('<', '>').
+        annotationbbox_kw (dict, optional): AnnotationBbox keywords. Defaults to {}.
+        ax (Axes, optional): Defaults to None.
+        fig (Figure, optional): Defaults to None.
+        add_artist (bool, optional): Whether to add the AnnotationBbox to the axes. Defaults to True.
+        vpad (int, optional): vertical padding of the HighlightRows. Defaults to 0.
+        vsep (int, optional): vertical seperation between the HighlightRows. Defaults to 4.
+        hpad (int, optional): horizontal padding of a rows TextAreas. Defaults to 0.
+        hsep (int, optional): horizontal seperation between a rows TextAreas. Defaults to 0.
 
     Returns:
-        HighlightText: [description]
+        HighlightText
     """
 
     return HighlightText(x, y, s, ha=ha, va=va,
@@ -341,30 +373,31 @@ def fig_text(x, y, s, ha='left', va='top',
              add_artist=True,
              vpad=0, vsep=4, hpad=0, hsep=0,
              **kwargs):
+
     """wrapper around the HighlightText Class to continue known hightlight_text nomenclature
 
     sets the Annotation boxcoords to fig.transFigure
 
     Args:
-        x (float): [description]
-        y (float): [description]
-        s (str): [description]
-        ha (str, optional): [description]. Defaults to 'left'.
-        va (str, optional): [description]. Defaults to 'top'.
-        highlight_textprops (dict, optional): [description]. Defaults to None.
+        x (float): x-position
+        y (float): y-position
+        s (str): textstring with <highlights>
+        ha (str, optional): horizontal alignment of the AnnotationBbox. Defaults to 'left'.
+        va (str, optional): vertical alignment of the AnnotationBbox. Defaults to 'top'.
+        highlight_textprops (dict, optional): list of textprops dictionaries. Defaults to None.
         textalign (str, optional): Text Alignment for the AnnotationBbox. Defaults to 'left'.
-        delim (tuple, optional): [description]. Defaults to ('<', '>').
-        annotationbbox_kw (dict, optional): [description]. Defaults to {}.
-        ax ([type], optional): [description]. Defaults to None.
-        fig ([type], optional): [description]. Defaults to None.
-        add_artist (bool, optional): [description]. Defaults to True.
-        vpad (int, optional): [description]. Defaults to 0.
-        vsep (int, optional): [description]. Defaults to 4.
-        hpad (int, optional): [description]. Defaults to 0.
-        hsep (int, optional): [description]. Defaults to 0.
+        delim (tuple, optional): characters that enclose <highlighted substrings>. Defaults to ('<', '>').
+        annotationbbox_kw (dict, optional): AnnotationBbox keywords. Defaults to {}.
+        ax (Axes, optional): Defaults to None.
+        fig (Figure, optional): Defaults to None.
+        add_artist (bool, optional): Whether to add the AnnotationBbox to the axes. Defaults to True.
+        vpad (int, optional): vertical padding of the HighlightRows. Defaults to 0.
+        vsep (int, optional): vertical seperation between the HighlightRows. Defaults to 4.
+        hpad (int, optional): horizontal padding of a rows TextAreas. Defaults to 0.
+        hsep (int, optional): horizontal seperation between a rows TextAreas. Defaults to 0.
 
     Returns:
-        HighlightText: [description]
+        HighlightText
     """
 
     if fig is None:

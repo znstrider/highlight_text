@@ -19,7 +19,7 @@ from highlight_text import HighlightText, ax_text, fig_text
 import highlight_text # then use highlight_text.ax_text or highlight_text.fig_text
 ```
 
-## Plotting in axes coordinates
+## Plotting text in axes coordinates
 
 ```python
 fig, ax = plt.subplots()  
@@ -39,7 +39,7 @@ ax_text(x = 0, y = 0.5,
         ax=ax)
 ```
 
-## Plotting in figure coordinates:
+## Plotting text in figure coordinates:
 
 ```python
 fig, ax = plt.subplots()  
@@ -60,59 +60,160 @@ fig_text(x=0.25, y=0.5,
 
 ```
 
-You can pass all matplotlib.Text keywords to HighlightText for all text,  
-and into the highlight_textprops for each of the text highlights.
+---  
+<font style="color:#2171b5; font-size:16px">You can pass all matplotlib.Text keywords to HighlightText for all text,  
+and into the highlight_textprops for each of the text highlights.  
+The highlight_textprops overwrite all other passed keywords for the highlighted substrings.
+</font>  
+
+---  
+
 
 
 ## Using Path Effects
 
 ```python
+import matplotlib.patheffects as path_effects
+
+def path_effect_stroke(**kwargs):
+    return [path_effects.Stroke(**kwargs), path_effects.Normal()]
+pe = path_effect_stroke(linewidth=3, foreground="orange")
+
+highlight_textprops =\
+[{"color": "yellow", "path_effects": pe},
+ {"color": "#969696", "fontstyle": "italic", "fontweight": "bold"}]
+ 
+fig, ax = plt.subplots(figsize=(4, 4))  
+
+HighlightText(x=0.5, y=0.5,
+              fontsize=16,
+              ha='center', va='center',
+              s='The weather is <sunny>\nYesterday it was <cloudy>',
+              highlight_textprops=highlight_textprops,
+              ax=ax)
 ```
 
-## Using BBox
+## BBox highlights
+
+Just like colored substrings or using a path_effect, using a bbox to shade the background of  
+relevant text that is color coded in your plot can make a visualization much more accessible.
 
 ```python
+highlight_textprops =\
+[{"bbox": {"edgecolor": "orange", "facecolor": "yellow", "linewidth": 1.5, "pad": 1}},
+ {"color": "#969696"}]
+ 
+fig, ax = plt.subplots(figsize=(4, 4))  
+
+HighlightText(x=0.5, y=0.5,
+              fontsize=16,
+              ha='center', va='center',
+              s='The weather is <sunny>\nYesterday it was <cloudy>',
+              highlight_textprops=highlight_textprops,
+              ax=ax)
 ```
 
-## Creating axes insets on top of highlighted subtrings
+## Different Fontsizes (ie. for Title + Subtitle)
 
 ```python
+highlight_textprops =\
+[{"fontsize": 24},
+ {"color": "#969696"}]
+ 
+fig, ax = plt.subplots(figsize=(4, 4))  
+
+HighlightText(x=0.5, y=0.5,
+              fontsize=16,
+              ha='center', va='center',
+              s='<This is a title.>\n<and a subtitle>',
+              highlight_textprops=highlight_textprops,
+              fontname='Roboto',
+              ax=ax)
+```
+
+## Custom Linespacing by using invisible text with a fitting fontsize
+
+```python
+highlight_textprops =\
+[{"fontsize": 24},
+ {"alpha": 0, "fontsize": 6},
+ {"color": "#969696"}]
+ 
+fig, ax = plt.subplots(figsize=(4, 4))  
+
+HighlightText(x=0.5, y=0.5,
+              fontsize=16,
+              ha='center', va='center',
+              s='<This is a title.>\n<ZERO ALPHA TEXT>\n<and a subtitle>',
+              highlight_textprops=highlight_textprops,
+              fontname='Roboto',
+              ax=ax)
+```
+
+## Axes insets on top of highlighted substrings
+
+This is great for embedding legends into your title or markers into annotations.  
+Look at some of John Burn-Murdoch's (@jburnmurdoch) Plots. He has mastered this.
+
+```python
+highlight_textprops =\
+[{"alpha": 0},
+ {"alpha": 0}]
+ 
+fig, ax = plt.subplots(figsize=(4, 4))  
+
+ht = HighlightText(x=0.5, y=0.5,
+              fontsize=16,
+              ha='center', va='center',
+              s='Today it rained this much <SPACE>\n'
+                'Yesterday only this much  <SPACE>',
+              highlight_textprops=highlight_textprops,
+              ax=ax)
+
+insets = ht.make_highlight_insets([True, True])
+for haxes, color, height in zip(ht.highlight_axes, ['b', 'b'], [0.75, 0.25]):
+    if haxes:
+        haxes.bar(x=[0.25], height=[height], bottom=0.25, color=color, width=0.5)
+        haxes.set_ylim(0, 1)
+        haxes.set_xlim(0, 1)
+```
+
+## AnnotationBbox BBox
+
+We can also place a Bounding Box around the whole AnnotationBbox that holds all of our text.
+
+```python
+# ToDo: Example 
 ```
 
 
-
-
-### Installation
+# Installation
 
     pip install highlight-text
 
 
 ![png](/examples/htext.png)
 
-Parameters:  
-##########
-  
-x: x position with left alignment  
-y: y position  
-s: text including highlighted substrings
-color: textcolor of unhighlighted text  
-highlight_colors: list of highlight colors  
-highlight_weights = ['regular']: the fontweight used for highlighted text  
-highlight_styles = ['normal']: the fontstyle used for highlighted text  
-fontweight = 'regular': the fontweight used for normal text  
-fontstyle = 'normal': the fontstyle used for normal text  
-delim = ['<', '>']: delimiters to enclose the highlight substrings  
-va = 'bottom', textalignment has to be in ['bottom', 'top', 'center']  
-ha = 'left', textalignment has to be in ['left', 'right', 'center']  
-hpadding = 0: extra padding between highlight and normal text  
-linespacing = 0.25: linespacing in factor of font height between rows  
-**kwargs: figure.text | plt.text kwargs  
-[ax: axes to draw the text onto (in case of ax_text)]  
-[fig: figure(in case of fig_text)]  
-
-Returns:  
-##########
-
-a list of texts
+```python
+"""
+Args:
+    x (float): x-position
+    y (float): y-position
+    s (str): textstring with <highlights>
+    ha (str, optional): horizontal alignment of the AnnotationBbox. Defaults to 'left'.
+    va (str, optional): vertical alignment of the AnnotationBbox. Defaults to 'top'.
+    highlight_textprops (dict, optional): list of textprops dictionaries. Defaults to None.
+    textalign (str, optional): Text Alignment for the AnnotationBbox. Defaults to 'left'.
+    delim (tuple, optional): characters that enclose <highlighted substrings>. Defaults to ('<', '>').
+    annotationbbox_kw (dict, optional): AnnotationBbox keywords. Defaults to {}.
+    ax (Axes, optional): Defaults to None.
+    fig (Figure, optional): Defaults to None.
+    add_artist (bool, optional): Whether to add the AnnotationBbox to the axes. Defaults to True.
+    vpad (int, optional): vertical padding of the HighlightRows. Defaults to 0.
+    vsep (int, optional): vertical seperation between the HighlightRows. Defaults to 4.
+    hpad (int, optional): horizontal padding of a rows TextAreas. Defaults to 0.
+    hsep (int, optional): horizontal seperation between a rows TextAreas. Defaults to 0.
+"""
+```
 
 ![Alt Text](/examples/htext.gif)
