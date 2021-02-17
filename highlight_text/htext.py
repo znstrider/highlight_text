@@ -103,10 +103,12 @@ class HighlightText:
         by using `::{"size": 12, "color": 'yellow'}` at the end of the <highlighted> substring.
         or by using highlight_textprops = [{"size": 12, "color": 'yellow'}]
 
-    example: HighlightText(s='The weather is <sunny::{"color": "yellow"}>\n'
-                             'Yesterday it was <cloudy::{"color": "grey"}>', x=0.25, y=0.5)
+    example: HighlightText(x=0.25, y=0.5,
+                           s='The weather is <sunny::{"color": "yellow"}>\n'
+                             'Yesterday it was <cloudy::{"color": "grey"}>')
 
-             HighlightText(s='The weather is <sunny>\nYesterday it was <cloudy>', x=0.25, y=0.5,
+             HighlightText(x=0.25, y=0.5,,
+                           s='The weather is <sunny>\nYesterday it was <cloudy>',
                            highlight_textprops=[{"color": 'yellow'},
                                                 {"color": 'grey'}])
 

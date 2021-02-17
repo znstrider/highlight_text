@@ -1,46 +1,90 @@
 ![png](/examples/highlight_text_logo.png)
 
-### highlight_text
+# highlight_text
 
-This package provides two functions that allow you to plot text with <highlighted substrings> in matplotlib:
+This package provides a HighlightText class and two wrapper functions that allow you to plot text with `<highlighted substrings>` in matplotlib:
  - ax_text for plotting onto an axes in data coordinates.  
  - fig_text for plotting onto the figure in figure coordinates.  
 
-They take a string with substring delimiters = ['<', '>'] to be highlighted according to highlight colors:
-'The weather is (sunny) today. Yesterday it (rained).', color = 'k', highlight_colors = ['C1', 'grey']
-prints the text with 'sunny' as orange and 'rained' as grey.
+They take a string with substring delimiters = ['<', '>'] to be highlighted according to the specified highlight colors.
 
-A minimal example would be (Replace () with delimiters <> - markdown won't show them):  
+The example below prints the text <font color='yellow'>sunny</font> as yellow and <font color='grey'>cloudy</font> as grey.
 
-    import matplotlib.pyplot as plt
-    from highlight_text import ax_text, fig_text
-    # or
-    import highlight_text # then use highlight_text.ax_text or highlight_text.fig_text
-<pre><code>fig, ax = plt.subplots()  
+A minimal example would be:  
+
+```python
+import matplotlib.pyplot as plt
+from highlight_text import HighlightText, ax_text, fig_text
+# or
+import highlight_text # then use highlight_text.ax_text or highlight_text.fig_text
+```
+
+## Plotting in axes coordinates
+
+```python
+fig, ax = plt.subplots()  
+
+# You can either create a HighlightText object
+HighlightText(x=0.25, y=0.5,
+              s='The weather is <sunny>\nYesterday it was <cloudy>',
+              highlight_textprops=[{"color": 'yellow'},
+                                   {"color": 'grey'}],
+              ax=ax)
+
+# You can use the wrapper around the class
 ax_text(x = 0, y = 0.5,
-        s = 'The weather is (sunny) today. Yesterday it (rained).'
-        color = 'k', highlight_colors = ['C1', 'grey'])</code></pre>
+        s='The weather is <sunny>\nYesterday it was <cloudy>',
+        highlight_textprops=[{"color": 'yellow'},
+                             {"color": 'grey'}],
+        ax=ax)
+```
 
-or for the fig_text:
+## Plotting in figure coordinates:
 
-<pre><code>fig, ax = plt.subplots()  
-fig_text(x = 0, y = 0.5,
-         s = 'The weather is (sunny) today. Yesterday it (rained).',
-         color = 'k', highlight_colors = ['C1', 'grey'])</code></pre>
+```python
+fig, ax = plt.subplots()  
 
-You can further highlight by using  
-highlight_styles ie. ['normal', 'italic', 'oblique']  
-and highlight_weights ie. ['regular', 'bold'].  
+# either pass 'boxcoords': fig.transFigure into the annotation_bbox_kw:
 
-This does work with linebreaks \n, fstrings and ha in ['left', 'right', 'center'] as well as va in ['botton', 'top', 'center'].
+HighlightText(x=0.25, y=0.5,
+              s='The weather is <sunny>\nYesterday it was <cloudy>',
+              highlight_textprops=[{"color": 'yellow'},
+                                   {"color": 'grey'}],
+              annotationbbox_kw={'boxcoords': fig.transFigure})
 
-<b>Make sure to set data limits and if used call plt.tight_layout() before using the ax_text function. Otherwise the data transformation will not show properly.</b>
+# or use the wrapper around the class
+fig_text(x=0.25, y=0.5,
+         s='The weather is <sunny>\nYesterday it was <cloudy>',
+         highlight_textprops=[{"color": 'yellow'},
+                              {"color": 'grey'}])
+
+```
+
+You can pass all matplotlib.Text keywords to HighlightText for all text,  
+and into the highlight_textprops for each of the text highlights.
+
+
+## Using Path Effects
+
+```python
+```
+
+## Using BBox
+
+```python
+```
+
+## Creating axes insets on top of highlighted subtrings
+
+```python
+```
+
+
 
 
 ### Installation
 
     pip install highlight-text
-
 
 
 ![png](/examples/htext.png)
