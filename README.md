@@ -155,6 +155,16 @@ HighlightText(x=0.5, y=0.5,
 This is great for embedding legends into your title or markers into annotations.  
 Look at some of John Burn-Murdoch's (@jburnmurdoch) Plots. He has mastered this.
 
+<font color="red">Important:</font>   
+If you make an axes inset using a script, you will have to redraw the canvas!
+
+So at the end of your plotting call:  
+```python
+fig.canvas.draw()  
+plt.show()
+```
+
+
 ```python
 highlight_textprops =\
 [{"alpha": 0},
