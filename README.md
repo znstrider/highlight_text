@@ -166,8 +166,8 @@ HighlightText(x=0.5, y=0.5,
 This is great for embedding legends into your title or markers into annotations.  
 Look at some of John Burn-Murdoch's (@jburnmurdoch) Plots. He has mastered this.
 
-An Example is provided in notebooks [Link to Financial-Times Example Notebook](/notebooks/inset_legend_in_title-financial_times.ipynb)
-
+An Example is provided in [this notebook](/notebooks/inset_legend_in_title-financial_times.ipynb)  
+Source: https://twitter.com/jburnmurdoch/status/1319277057650556936/photo/1
 ![Financial-Times Example](/examples/example_financial-times_jburnmurdoch.png)
 
 <font color="red">Important:</font>   
