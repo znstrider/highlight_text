@@ -79,7 +79,9 @@ The highlight_textprops overwrite all other passed keywords for the highlighted 
 
 ---  
 
-
+An Showcase use is provided in [this notebook](/notebooks/color_encoded_title-petermckeever.ipynb)  
+Source: https://twitter.com/petermckeever/status/1346075580782047233
+![Color Encoding Example](/examples/color_encoded_title-petermckeever.png)
 
 ## Using Path Effects
 
