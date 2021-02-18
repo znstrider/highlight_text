@@ -144,6 +144,13 @@ HighlightText(x=0.5, y=0.5,
               ax=ax)
 ```
 
+This example taken from german news publication "Der Spiegel" uses bbox highlights and a different fontsize for title and subtitle.
+
+The code is provided in [this notebook](/notebooks/title_bbox_encoding_spiegel-de.ipynb)  
+Source: https://twitter.com/petermckeever/status/1346075580782047233
+![Title BBox Example](/examples/title_bboxes_example-spiegel.png)
+
+
 ## Custom Linespacing by using invisible text with a fitting fontsize
 
 ```python
