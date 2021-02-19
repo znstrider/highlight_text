@@ -71,6 +71,8 @@ fig_text(x=0.25, y=0.5,
 
 ```
 
+![Example 1](/examples/Example1.png)
+
 ---  
 <font style="color:#2171b5; font-size:16px">You can pass all matplotlib.Text keywords to HighlightText for all text,  
 and into the highlight_textprops for each of the text highlights.  
@@ -80,7 +82,7 @@ The highlight_textprops overwrite all other passed keywords for the highlighted 
 ---  
 
 A showcase use is provided in [this notebook](/notebooks/color_encoded_title-petermckeever.ipynb)  
-Source: https://twitter.com/petermckeever/status/1346075580782047233
+Source: https://twitter.com/petermckeever/status/1346075580782047233  
 ![Color Encoding Example](/examples/color_encoded_title-petermckeever.png)
 
 ## Using Path Effects
@@ -106,6 +108,9 @@ HighlightText(x=0.5, y=0.5,
               ax=ax)
 ```
 
+![Example 2](/examples/Example2_path_effects.png)
+
+
 ## BBox highlights
 
 Just like colored substrings or using a path_effect, using a bbox to shade the background of  
@@ -126,6 +131,8 @@ HighlightText(x=0.5, y=0.5,
               ax=ax)
 ```
 
+![Example 3](/examples/Example3_bbox.png)
+
 ## Different Fontsizes (ie. for Title + Subtitle)
 
 ```python
@@ -143,6 +150,8 @@ HighlightText(x=0.5, y=0.5,
               fontname='Roboto',
               ax=ax)
 ```
+
+![Example 5](/examples/Example5_fontsizes.png)
 
 This example taken from german news publication "Der Spiegel" uses bbox highlights and a different fontsize for title and subtitle.
 
@@ -169,6 +178,8 @@ HighlightText(x=0.5, y=0.5,
               fontname='Roboto',
               ax=ax)
 ```
+
+![Example 6](/examples/Example6_extra_linespacing.png)
 
 ## Axes insets on top of highlighted substrings
 
@@ -212,14 +223,26 @@ for haxes, color, height in zip(ht.highlight_axes, ['b', 'b'], [0.75, 0.25]):
         haxes.set_xlim(0, 1)
 ```
 
+![Example 4](/examples/Example3_inset.png)
+
 ## AnnotationBbox BBox
 
 We can also place a Bounding Box around the whole AnnotationBbox that holds all of our text.
 
 ```python
-# ToDo: Example 
+fig, ax = plt.subplots(figsize=(4, 2))
+
+ht = HighlightText(x=0.5, y=0.5,
+              fontsize=12,
+              ha='center', va='center',
+              s='<Grocery List:>\nBananas\nOatmeal',
+              highlight_textprops=[{'size': 20}],
+              annotationbbox_kw={'frameon': True, 'pad': 2,
+                                 'bboxprops': {'facecolor': '#ebfc03', 'edgecolor': '#41b6c4', 'linewidth': 5}},
+              ax=ax)
 ```
 
+![Example 7](/examples/Example7_annotationbbox_bboxprops.png)
 
 # Note:
 

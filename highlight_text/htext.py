@@ -147,14 +147,14 @@ class HighlightText:
         """
 
         if ax is None:
-            self._ax = plt.gca()
+            self.ax = plt.gca()
         else:
-            self._ax = ax
+            self.ax = ax
 
         if fig is None:
-            self._fig = plt.gcf()
+            self.fig = plt.gcf()
         else:
-            self._fig = fig
+            self.fig = fig
 
         self._add_artist = add_artist
 
@@ -251,7 +251,8 @@ class HighlightText:
                                               **self._annotationbbox_kw)
 
         if self._add_artist:
-            self._ax.add_artist(self.annotation_bbox)
+            self.ax.add_artist(self.annotation_bbox)
+            self.set_renderer()
 
     def make_highlight_insets(self, make_highlight_insets):
         """creates axes insets for each text_highlight that is passed True
@@ -259,6 +260,8 @@ class HighlightText:
         Args:
             make_highlight_insets (list(bool)): list of booleans with len(get_highlight_areas())
         """
+
+        self.set_renderer()
 
         highlight_areas = self.get_highlight_areas()
 
@@ -275,7 +278,11 @@ class HighlightText:
                 # set the _highlight_inset to None
                 self.highlight_axes.append(None)
 
-    def make_bbox_axes_inset(self, obj, fig=None, ax=None, zorder=99, axis='off', facecolor='None'):
+    def set_renderer(self):
+        self.fig.canvas.draw()
+        self.renderer = self.fig.canvas.get_renderer()
+
+    def make_bbox_axes_inset(self, obj, zorder=99, axis='off', facecolor='None'):
         """
         add another axes to the figure in the position and extent of obj
         for a matplotlib object that has the get_window_extent function
@@ -293,22 +300,18 @@ class HighlightText:
         facecolor = 'None': str
 
         """
-        fig = self._fig
 
         if isinstance(obj, TextArea) or isinstance(obj, AnnotationBbox):
             if 'inline' not in mpl.get_backend():
                 plt.show(block=False)
 
-        fig.canvas.draw()
-        renderer = fig.canvas.get_renderer()
-
         # bounding box of the object | Axes Coordinates
-        win_ext = obj.get_window_extent(renderer)
+        win_ext = obj.get_window_extent(self.renderer)
 
         # transform to Figure Coordinates
-        bbox_bounds = get_bbox_bounds(fig.transFigure.inverted().transform(win_ext))
+        bbox_bounds = get_bbox_bounds(self.fig.transFigure.inverted().transform(win_ext))
 
-        ax_inset = fig.add_axes(bbox_bounds)
+        ax_inset = self.fig.add_axes(bbox_bounds)
         ax_inset.set_zorder(zorder)
         ax_inset.axis(axis)
         ax_inset.set_facecolor(facecolor)
