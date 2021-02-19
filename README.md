@@ -160,7 +160,8 @@ Source of the Graphic: https://www.spiegel.de/wissenschaft/medizin/coronavirus-i
 
 ![Title BBox Example](/examples/title_bboxes_example-spiegel.png)
 
-Original Graphic:
+#### Original Graphic:  
+
 ![Original Spiegel Graphic](/examples/Das_Infektionsgeschehen_in_Europa-Der_Spiegel.png)
 
 
