@@ -190,15 +190,8 @@ An Example is provided in [this notebook](/notebooks/inset_legend_in_title-finan
 Source: https://twitter.com/jburnmurdoch/status/1319277057650556936/photo/1
 ![Financial-Times Example](/examples/example_financial-times_jburnmurdoch.png)
 
-<font color="red">Important:</font>   
-If you make an axes inset using a script, you will have to redraw the canvas!
-
-So at the end of your plotting call:  
-```python
-fig.canvas.draw()  
-plt.show()
-```
-
+A more basic example looks like follows:  
+Instead of plotting on the inset axes you can also inset images with this.
 
 ```python
 highlight_textprops =\
@@ -223,7 +216,17 @@ for haxes, color, height in zip(ht.highlight_axes, ['b', 'b'], [0.75, 0.25]):
         haxes.set_xlim(0, 1)
 ```
 
-![Example 4](/examples/Example3_inset.png)
+<font color="red">Important:</font>   
+If you make an axes inset using a script, you will have to redraw the canvas!
+
+So at the end of your plotting call:  
+```python
+fig.canvas.draw()  
+plt.show()
+```
+
+
+![Example 4](/examples/Example4_inset.png)
 
 ## AnnotationBbox BBox
 
