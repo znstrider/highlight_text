@@ -17,7 +17,8 @@ This package provides a HighlightText class and two wrapper functions that allow
  - ax_text for plotting onto an axes in data coordinates.  
  - fig_text for plotting onto the figure in figure coordinates.  
 
-They take a string with substring delimiters = ['<', '>'] to be highlighted according to the specified highlight colors.
+They take a string with substring delimiters = ['<', '>'] to be highlighted according to the specified highlight_textprops.  
+You must specify a list with the same number of textprop dictionaries as you use `<highlighted substrings>`.
 
 The example below prints the text <font color='yellow'>sunny</font> as yellow and <font color='grey'>cloudy</font> as grey.
 
