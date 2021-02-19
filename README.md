@@ -156,8 +156,11 @@ HighlightText(x=0.5, y=0.5,
 This example taken from german news publication "Der Spiegel" uses bbox highlights and a different fontsize for title and subtitle.
 
 The code is provided in [this notebook](/notebooks/title_bbox_encoding_spiegel-de.ipynb)  
-Source: https://www.spiegel.de/wissenschaft/medizin/coronavirus-in-europa-die-zweite-welle-rollt-a-1d5b12a1-162d-48a3-8e1e-40235c996080?sara_ecid=soci_upd_wbMbjhOSvViISjc8RPU89NcCvtlFcJ
+Source of the Graphic: https://www.spiegel.de/wissenschaft/medizin/coronavirus-in-europa-die-zweite-welle-rollt-a-1d5b12a1-162d-48a3-8e1e-40235c996080?sara_ecid=soci_upd_wbMbjhOSvViISjc8RPU89NcCvtlFcJ  
+
 ![Title BBox Example](/examples/title_bboxes_example-spiegel.png)
+
+Original Graphic:
 ![Original Spiegel Graphic](/examples/Das_Infektionsgeschehen_in_Europa-Der_Spiegel.png)
 
 
