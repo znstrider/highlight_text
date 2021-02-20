@@ -272,7 +272,7 @@ class HighlightText:
             self.ax.add_artist(self.annotation_bbox)
             self.set_renderer()
 
-    def make_highlight_insets(self, make_highlight_insets):
+    def make_highlight_insets(self, make_highlight_insets, **kwargs):
         """creates axes insets for each text_highlight that is passed True
 
         Args:
@@ -290,7 +290,7 @@ class HighlightText:
         for make_inset, text_area in zip(make_highlight_insets, highlight_areas):
             if make_inset:
                 # create the inset and store it in self.highlight_insets
-                inset = self.make_bbox_axes_inset(text_area)
+                inset = self.make_bbox_axes_inset(text_area, **kwargs)
                 self.highlight_axes.append(inset)
             else:
                 # set the _highlight_inset to None
@@ -300,7 +300,7 @@ class HighlightText:
         self.fig.canvas.draw()
         self.renderer = self.fig.canvas.get_renderer()
 
-    def make_bbox_axes_inset(self, obj, zorder=99, axis='off', facecolor='None'):
+    def make_bbox_axes_inset(self, obj, axis='off', **kwargs):
         """
         add another axes to the figure in the position and extent of obj
         for a matplotlib object that has the get_window_extent function
@@ -318,6 +318,11 @@ class HighlightText:
         facecolor = 'None': str
 
         """
+        if 'facecolor' not in kwargs.keys():
+            kwargs.update({'facecolor': 'None'})
+
+        if 'zorder' not in kwargs.keys():
+            kwargs.update({'zorder': 99})
 
         if isinstance(obj, TextArea) or isinstance(obj, AnnotationBbox):
             if 'inline' not in mpl.get_backend():
@@ -329,10 +334,8 @@ class HighlightText:
         # transform to Figure Coordinates
         bbox_bounds = get_bbox_bounds(self.fig.transFigure.inverted().transform(win_ext))
 
-        ax_inset = self.fig.add_axes(bbox_bounds)
-        ax_inset.set_zorder(zorder)
+        ax_inset = self.fig.add_axes(bbox_bounds, **kwargs)
         ax_inset.axis(axis)
-        ax_inset.set_facecolor(facecolor)
 
         return ax_inset
 
