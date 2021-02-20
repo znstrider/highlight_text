@@ -236,7 +236,7 @@ plt.show()
 
 ## AnnotationBbox BBox
 
-We can also place a Bounding Box around the whole AnnotationBbox that holds all of our text.
+We can also place a Bounding Box around the whole AnnotationBbox that holds all of our text by setting 'frameon': True within the annotationbbox_kw dictionary.
 
 ```python
 fig, ax = plt.subplots(figsize=(4, 2))
