@@ -3,6 +3,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as path_effects
 from matplotlib.offsetbox import AnnotationBbox, TextArea, HPacker, VPacker
+from matplotlib.transforms import BboxTransformTo
 import ast
 import warnings
 
@@ -112,6 +113,21 @@ class HighlightText:
                            highlight_textprops=[{"color": 'yellow'},
                                                 {"color": 'grey'}])
 
+    by default sets annotationbbox_kw:
+
+        'frameon' to False: to not show the bbox surrounding it
+
+        annotation_clip to False: to draw the annotation even if xy is outside the axes (or figure)
+            ```
+            annotation_clipbool or None, default: None
+
+                Whether to draw the annotation when the annotation point xy is outside the axes area.
+
+                If True, the annotation will only be drawn when xy is within the axes.
+                If False, the annotation will always be drawn.
+                If None, the annotation will only be drawn when xy is within the axes and xycoords is 'data'
+            ```
+
     building on: https://stackoverflow.com/questions/63659519/plotting-text-using-textarea-and-annotationbbox-in-matplotlib
     """
 
@@ -181,6 +197,8 @@ class HighlightText:
         self._annotationbbox_kw = annotationbbox_kw
         if 'frameon' not in self._annotationbbox_kw:
             self._annotationbbox_kw['frameon'] = False
+        if 'annotation_clip' not in self._annotationbbox_kw:
+            self._annotationbbox_kw['annotation_clip'] = False
         self._set_annotation_box()
 
     def _set_box_alignment(self, ha, va):
@@ -406,6 +424,7 @@ def fig_text(x, y, s, ha='left', va='top',
     if fig is None:
         fig = plt.gcf()
 
+    # set the transform
     annotationbbox_kw.update({'boxcoords': fig.transFigure})
 
     return HighlightText(x, y, s, ha=ha, va=va,
