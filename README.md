@@ -3,8 +3,7 @@
 ---
 ## This is a not fully tested full refactoring of the package.
 
-You can download the code of the full_refactor branch or clone the repository and install the package locally
-with `pip install -e .` in developer mode from the cloned directory.  
+You can download the code of the full_refactor branch or clone the repository and install the package locally from the cloned repo folder with `pip install -e .` (which installs the the `project found in the current directory` along with the dependencies listed in requirements.txt [that's what "." does]) in developer mode [e = editable] or with `pip install /path/to-cloned/folder`.  
 Then change to the full_refactor branch by `git checkout full_refactor` and restart your notebooks / rerun your script.
 
 If you encounter any problems, please let me know.  
