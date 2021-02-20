@@ -2,7 +2,7 @@
 
 ### highlight_text
 
-This package provides two functions that allow you to plot text with <highlighted substrings> in matplotlib:
+This package provides two functions that allow you to plot text with `<highlighted substrings>` in matplotlib:
  - ax_text for plotting onto an axes in data coordinates.  
  - fig_text for plotting onto the figure in figure coordinates.  
 
@@ -10,29 +10,60 @@ They take a string with substring delimiters = ['<', '>'] to be highlighted acco
 'The weather is (sunny) today. Yesterday it (rained).', color = 'k', highlight_colors = ['C1', 'grey']
 prints the text with 'sunny' as orange and 'rained' as grey.
 
-A minimal example would be (Replace () with delimiters <> - markdown won't show them):  
+A minimal example would be:  
 
-    import matplotlib.pyplot as plt
-    from highlight_text import ax_text, fig_text
-    # or
-    import highlight_text # then use highlight_text.ax_text or highlight_text.fig_text
-<pre><code>fig, ax = plt.subplots()  
+```python
+import matplotlib.pyplot as plt
+from highlight_text import ax_text, fig_text
+# or
+import highlight_text # then use highlight_text.ax_text or highlight_text.fig_text
+
+fig, ax = plt.subplots()  
 ax_text(x = 0, y = 0.5,
-        s = 'The weather is (sunny) today. Yesterday it (rained).'
-        color = 'k', highlight_colors = ['C1', 'grey'])</code></pre>
+        s = 'The weather is <sunny> today. Yesterday it <rained>.'
+        color = 'k', highlight_colors = ['C1', 'grey'])
+```
 
 or for the fig_text:
 
-<pre><code>fig, ax = plt.subplots()  
+```python
+fig, ax = plt.subplots()  
 fig_text(x = 0, y = 0.5,
-         s = 'The weather is (sunny) today. Yesterday it (rained).',
-         color = 'k', highlight_colors = ['C1', 'grey'])</code></pre>
+         s = 'The weather is <sunny> today. Yesterday it <rained>.',
+         color = 'k', highlight_colors = ['C1', 'grey'])
+```
 
 You can further highlight by using  
 highlight_styles ie. ['normal', 'italic', 'oblique']  
 and highlight_weights ie. ['regular', 'bold'].  
 
 This does work with linebreaks \n, fstrings and ha in ['left', 'right', 'center'] as well as va in ['botton', 'top', 'center'].
+
+We can also use path_effects and set bounding boxes:  
+```python
+
+fig, ax = plt.subplots(figsize=(12, 2))
+
+texts = fig_text(s='We can do <basic bbox highlights>, <path effect highlights>\n'
+                   'as well as     <bbox rarrow>  and other bbox shapes',
+                   x=0.25,
+                   y=0.5,
+                   highlight_colors=['w', 'orange', '#696969'],
+                   path_effect_kws=[None,
+                                   {'foreground': 'firebrick', 'linewidth': 5},
+                                   {'foreground': '#f0f0f0', 'linewidth': 1.5}],
+                   bbox_kws=[{'facecolor':'r', 'alpha': 0.5, 'pad': 1.5},
+                               None,
+                               {'edgecolor': 'SkyBlue', 'facecolor': '#08519c', 'boxstyle': 'larrow', 'linewidth': 2.5}],
+                   linespacing=.5,
+                   color='w',
+                   ha='left',
+                   va='center',
+                   fontname=fontname,
+                   fontsize=14)
+```
+
+![png](/examples/bbox_and_path_effects.png)
 
 <b>Make sure to set data limits and if used call plt.tight_layout() before using the ax_text function. Otherwise the data transformation will not show properly.</b>
 
