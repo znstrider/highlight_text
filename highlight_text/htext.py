@@ -243,7 +243,7 @@ class HighlightText:
     def _set_text_areas(self):
         self.text_areas = []
         for hrow in self._highlight_rows:
-            self.text_areas.append(hrow._text_areas)
+            self.text_areas.append(hrow.text_areas)
         self.text_areas = [item for sublist in self.text_areas for item in sublist]
 
     def _set_is_highlight(self):
