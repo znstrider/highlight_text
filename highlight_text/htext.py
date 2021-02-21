@@ -34,7 +34,7 @@ class HighlightRow:
         self._delim = delim
         self._rowtext = s
         self._set_row_substrings()
-        self._text_areas = []
+        self.text_areas = []
         self._set_text_areas()
         self._set_hpacker()
 
@@ -87,11 +87,11 @@ class HighlightRow:
 
                 highlight_count += 1
             text = TextArea(s, textprops=textprops)
-            self._text_areas.append(text)
+            self.text_areas.append(text)
 
     def _set_hpacker(self):
         """creates an HPacker with all row substrings as children"""
-        self._hpacker = HPacker(children=self._text_areas, align="left", pad=self._pad, sep=self._sep)
+        self._hpacker = HPacker(children=self.text_areas, align="left", pad=self._pad, sep=self._sep)
 
 
 class HighlightText:
@@ -333,8 +333,10 @@ class HighlightText:
 
         # transform to Figure Coordinates
         bbox_bounds = get_bbox_bounds(self.fig.transFigure.inverted().transform(win_ext))
-
         ax_inset = self.fig.add_axes(bbox_bounds, **kwargs)
+
+        # bbox_bounds = get_bbox_bounds(self.ax.transData.inverted().transform(win_ext))
+        # ax_inset = self.ax.inset_axes(bbox_bounds, **kwargs)
         ax_inset.axis(axis)
 
         return ax_inset
