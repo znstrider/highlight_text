@@ -165,6 +165,30 @@ Source of the Graphic: https://www.spiegel.de/wissenschaft/medizin/coronavirus-i
 ![Original Spiegel Graphic](/examples/Das_Infektionsgeschehen_in_Europa-Der_Spiegel.png)
 
 
+## Text Alignment and seperation between lines
+
+```python
+highlight_textprops =\
+[{"fontsize": 12, 'color': '0.4'},
+ {"fontsize": 24, "weight": "bold"},
+ {"fontsize": 14, "color": "0.3"}]
+ 
+fig, ax = plt.subplots(figsize=(12, 2))  
+ax.axis('off')
+
+HighlightText(x=0.5, y=0.5,
+              ha='center', va='center', # alignment of the annotationbbox
+              s='<In 2021>\n'
+                '<Manchester City dominates>\n'
+                '<With a series of 11 straight wins City launched from trailing 8 points to being 10 points ahead of its competitors.>\n',
+              highlight_textprops=highlight_textprops,
+              textalign='center', # horizontal alignment of the text
+              vsep=12, # vertical seperation between lines; `hsep` controls seperation of subtexts in a line.
+              ax=ax)
+```
+
+![Example 8](/examples/Example8_textalign.png)
+
 ## Custom Linespacing by using invisible text with a fitting fontsize
 
 ```python
