@@ -156,9 +156,9 @@ class HighlightText:
             ax (Axes, optional): Defaults to None.
             fig (Figure, optional): Defaults to None.
             add_artist (bool, optional): Whether to add the AnnotationBbox to the axes. Defaults to True.
-            vpad (int, optional): vertical padding of the HighlightRows. Defaults to 0.
+            vpad (int, optional): external boundary padding of the VPacker (that contains all HPackers) . Defaults to 0.
             vsep (int, optional): vertical seperation between the HighlightRows. Defaults to 4.
-            hpad (int, optional): horizontal padding of a rows TextAreas. Defaults to 0.
+            hpad (int, optional): internal boundary padding of the HPackers. Defaults to 0.
             hsep (int, optional): horizontal seperation between a rows TextAreas. Defaults to 0.
         """
 
@@ -368,9 +368,9 @@ def ax_text(x, y, s, ha='left', va='top',
         ax (Axes, optional): Defaults to None.
         fig (Figure, optional): Defaults to None.
         add_artist (bool, optional): Whether to add the AnnotationBbox to the axes. Defaults to True.
-        vpad (int, optional): vertical padding of the HighlightRows. Defaults to 0.
+        vpad (int, optional): external boundary padding of the VPacker (that contains all HPackers) . Defaults to 0.
         vsep (int, optional): vertical seperation between the HighlightRows. Defaults to 4.
-        hpad (int, optional): horizontal padding of a rows TextAreas. Defaults to 0.
+        hpad (int, optional): internal boundary padding of the HPackers. Defaults to 0.
         hsep (int, optional): horizontal seperation between a rows TextAreas. Defaults to 0.
 
     Returns:
@@ -417,9 +417,9 @@ def fig_text(x, y, s, ha='left', va='top',
         ax (Axes, optional): Defaults to None.
         fig (Figure, optional): Defaults to None.
         add_artist (bool, optional): Whether to add the AnnotationBbox to the axes. Defaults to True.
-        vpad (int, optional): vertical padding of the HighlightRows. Defaults to 0.
+        vpad (int, optional): external boundary padding of the VPacker (that contains all HPackers) . Defaults to 0.
         vsep (int, optional): vertical seperation between the HighlightRows. Defaults to 4.
-        hpad (int, optional): horizontal padding of a rows TextAreas. Defaults to 0.
+        hpad (int, optional): internal boundary padding of the HPackers. Defaults to 0.
         hsep (int, optional): horizontal seperation between a rows TextAreas. Defaults to 0.
 
     Returns:
