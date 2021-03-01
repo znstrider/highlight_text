@@ -176,6 +176,11 @@ class HighlightText:
 
         self._x = x
         self._y = y
+        if 'xybox' in annotationbbox_kw:
+            self._xybox = annotationbbox_kw.pop('xybox')
+        else:
+            self._xybox = None
+
         self._vpad = vpad
         self._vsep = vsep
         self._hpad = hpad
@@ -265,6 +270,7 @@ class HighlightText:
         self._vpacker = VPacker(children=self._hpackers, pad=self._vpad, sep=self._vsep, align=self._text_align)
         self.annotation_bbox = AnnotationBbox(self._vpacker,
                                               (self._x, self._y),
+                                              xybox=self._xybox,
                                               box_alignment=self.box_alignment,
                                               **self._annotationbbox_kw)
 

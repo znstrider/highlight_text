@@ -10,7 +10,17 @@ If you encounter any problems, please let me know.
 
 ---
 
-# highlight_text  
+# HighlightText
+
+The purpose of this package is to make effective annotations easier in matplotlib.
+
+During 2020 data journalism has made a leap forward in covering the pandemic.
+There are now many publications that routinely use various forms of colored text highlights of key information in the title, that has until then often been shown in legends.  
+
+HighlightText package provides a natural way to specify to be highlighted substrings and the font properties that should be used for each of the highlights.  
+Whether that means using different colors, shading backgrounds with bboxes, using path_effects or different fontsize, weights, or styles you are free to choose what best supports highlighting the key information you want your viewers to know. 
+
+---
 
 This package provides a HighlightText class and two wrapper functions that allow you to plot text with `<highlighted substrings>` in matplotlib:
  - ax_text for plotting onto an axes in data coordinates.  
@@ -275,6 +285,32 @@ ht = HighlightText(x=0.5, y=0.5,
 ```
 
 ![Example 7](/examples/Example7_annotationbbox_bboxprops.png)
+
+
+## arrowprops
+
+The AnnotationBBox that holds our texts takes a `xybox` keyword argument that you can input to `annotationbbox_kw`.
+In combination with `arrowprops` this allows us to draw an arrow from xybox to the annotation point given by (x, y).
+
+```python
+fig, ax = plt.subplots(figsize=(4, 3))  
+
+ht = HighlightText(x=0.5, y=0.5,
+                   fontsize=12,
+                   ha='center', va='center',
+                   s='<Annotation Title:>\nPoint 1\nPoint 2',
+                   highlight_textprops=[{'size': 20}],
+                   annotationbbox_kw={'frameon': True, 'pad': 1,
+                                     'arrowprops': dict(arrowstyle="->"),
+                                     'xybox': (3, 0.5),
+                                      },
+              ax=ax)
+
+ax.set_xlim(0, 3)
+```
+
+![Example 9](/examples/Example9_arrowprops.png)
+
 
 # Note:
 
