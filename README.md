@@ -15,7 +15,7 @@ If you encounter any problems, please let me know.
 The purpose of this package is to make effective annotations easier in matplotlib.
 
 During 2020 data journalism has made a leap forward in covering the pandemic.
-There are now many publications that routinely use various forms of colored text highlights of key information in the title, that has until then often been shown in legends.  
+There are now many publications that routinely use various forms of colored text highlights of key information in the title, that until then has often been shown in legends.  
 
 HighlightText package provides a natural way to specify to be highlighted substrings and the font properties that should be used for each of the highlights.  
 Whether that means using different colors, shading backgrounds with bboxes, using path_effects or different fontsize, weights, or styles you are free to choose what best supports highlighting the key information you want your viewers to know. 
@@ -313,7 +313,7 @@ ht = HighlightText(x=0.5, y=0.5,
 
 
 <a name="Arrowprops"></a>
-## arrowprops
+## Arrowprops
 
 The AnnotationBBox that holds our texts takes a `xybox` keyword argument that you can input to `annotationbbox_kw`.
 In combination with `arrowprops` this allows us to draw an arrow from xybox to the annotation point given by (x, y).
