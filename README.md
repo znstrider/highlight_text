@@ -87,7 +87,19 @@ fig_text(x=0.25, y=0.5,
 
 [1) Showcase Use: Color Encoded Title - @petermckeever](#ColorEncodingExample)  
 [2) Using Path Effects](#PathEffects)  
+[3) Using BBox Highlights](#BBoxHighlights)  
+[4) Using Different Fontsizes](#Fontsizes)  
+[5) Showcase Use: DerSpiegel](#DerSpiegel)  
+[6) Custom Linespacing](#Linespacing)  
+[7) Showcase Use (Axes Insets): Financial Times](#AxesInsetsShowcase)  
+[8) Axes Inset](#AxesInset)  
+[9) AnnotationBBox](#AnnotationBbox)  
+[10) Arrowprops](#Arrowprops)  
 
+<a name="Linespacing"></a>
+<a name="AxesInsets"></a>
+<a name="AnnotationBbox"></a>
+<a name="Arrowprops"></a>
 ---  
 <font style="color:#2171b5; font-size:16px">You can pass all matplotlib.Text keywords to HighlightText for all text,  
 and into the highlight_textprops for each of the text highlights.  
@@ -127,7 +139,7 @@ HighlightText(x=0.5, y=0.5,
 
 ![Example 2](/examples/Example2_path_effects.png)
 
-
+<a name="BBoxHighlights"></a>
 ## BBox highlights
 
 Just like colored substrings or using a path_effect, using a bbox to shade the background of  
@@ -150,6 +162,7 @@ HighlightText(x=0.5, y=0.5,
 
 ![Example 3](/examples/Example3_bbox.png)
 
+<a name="Fontsizes"></a>
 ## Different Fontsizes (ie. for Title + Subtitle)
 
 ```python
@@ -170,6 +183,8 @@ HighlightText(x=0.5, y=0.5,
 
 ![Example 5](/examples/Example5_fontsizes.png)
 
+
+<a name="DerSpiegel"></a>
 This example taken from german news publication "Der Spiegel" uses bbox highlights and a different fontsize for title and subtitle.
 
 The code is provided in [this notebook](/notebooks/title_bbox_encoding_spiegel-de.ipynb)  
@@ -181,7 +196,7 @@ Source of the Graphic: https://www.spiegel.de/wissenschaft/medizin/coronavirus-i
 
 ![Original Spiegel Graphic](/examples/Das_Infektionsgeschehen_in_Europa-Der_Spiegel.png)
 
-
+<a name="TextAlignment"></a>
 ## Text Alignment and seperation between lines
 
 ```python
@@ -206,6 +221,8 @@ HighlightText(x=0.5, y=0.5,
 
 ![Example 8](/examples/Example8_textalign.png)
 
+
+<a name="Linespacing"></a>
 ## Custom Linespacing by using invisible text with a fitting fontsize
 
 ```python
@@ -227,6 +244,8 @@ HighlightText(x=0.5, y=0.5,
 
 ![Example 6](/examples/Example6_extra_linespacing.png)
 
+
+<a name="AxesInsetsShowcase"></a>
 ## Axes insets on top of highlighted substrings
 
 This is great for embedding legends into your title or markers into annotations.  
@@ -236,6 +255,7 @@ An Example is provided in [this notebook](/notebooks/inset_legend_in_title-finan
 Source: https://twitter.com/jburnmurdoch/status/1319277057650556936/photo/1
 ![Financial-Times Example](/examples/example_financial-times_jburnmurdoch.png)
 
+<a name="AxesInset"></a>
 A more basic example looks like follows:  
 Instead of plotting on the inset axes you can also inset images with this.
 
@@ -271,9 +291,10 @@ fig.canvas.draw()
 plt.show()
 ```
 
-
 ![Example 4](/examples/Example4_inset.png)
 
+
+<a name="AnnotationBbox"></a>
 ## AnnotationBbox BBox
 
 We can also place a Bounding Box around the whole AnnotationBbox that holds all of our text by setting 'frameon': True within the annotationbbox_kw dictionary.
@@ -294,6 +315,7 @@ ht = HighlightText(x=0.5, y=0.5,
 ![Example 7](/examples/Example7_annotationbbox_bboxprops.png)
 
 
+<a name="Arrowprops"></a>
 ## arrowprops
 
 The AnnotationBBox that holds our texts takes a `xybox` keyword argument that you can input to `annotationbbox_kw`.
