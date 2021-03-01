@@ -81,12 +81,12 @@ fig_text(x=0.25, y=0.5,
 
 ```
 
-### Examples  
-
-[1) Basic Example](#Example1)  
-[2) Showcase Use 1](#ColorEncodingExample)  
-
 ![Example1](/examples/Example1.png)
+
+### Further Examples  
+
+[1) Showcase Use 1](#ColorEncodingExample)  
+
 
 ---  
 <font style="color:#2171b5; font-size:16px">You can pass all matplotlib.Text keywords to HighlightText for all text,  
@@ -95,7 +95,7 @@ The highlight_textprops overwrite all other passed keywords for the highlighted 
 </font>  
 
 ---  
-
+<a name="ColorEncodingExample"></a>
 A showcase use is provided in [this notebook](/notebooks/color_encoded_title-petermckeever.ipynb)  
 Source: https://twitter.com/petermckeever/status/1346075580782047233  
 ![ColorEncodingExample](/examples/color_encoded_title-petermckeever.png)
