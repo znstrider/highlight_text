@@ -83,7 +83,7 @@ fig_text(x=0.25, y=0.5,
 
 ![Example1](/examples/Example1.png)
 
-### Further Examples  
+# Further Examples  
 
 [1) Showcase Use: Color Encoded Title - @petermckeever](#ColorEncodingExample)  
 [2) Using Path Effects](#PathEffects)  
@@ -96,10 +96,7 @@ fig_text(x=0.25, y=0.5,
 [9) AnnotationBBox](#AnnotationBbox)  
 [10) Arrowprops](#Arrowprops)  
 
-<a name="Linespacing"></a>
-<a name="AxesInsets"></a>
-<a name="AnnotationBbox"></a>
-<a name="Arrowprops"></a>
+
 ---  
 <font style="color:#2171b5; font-size:16px">You can pass all matplotlib.Text keywords to HighlightText for all text,  
 and into the highlight_textprops for each of the text highlights.  
