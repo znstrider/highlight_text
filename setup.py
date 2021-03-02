@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="highlight_text",
-    version="0.0.5",
+    version="0.2",
     author="znstrider",
     author_email="mindfulstrider@gmail.com",
     description="matplotlib functions to plot text with color highlighted substrings",
