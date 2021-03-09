@@ -14,19 +14,19 @@ If you encounter any problems, please let me know.
 
 The purpose of this package is to make effective annotations easier in matplotlib.
 
-During 2020 data journalism has made a leap forward in covering the pandemic.
+During 2020 data journalism has made a huge leap forward in covering the pandemic.
 There are now many publications that routinely use various forms of colored text highlights of key information in the title, that until then has often been shown in legends.  
 
-HighlightText package provides a natural way to specify to be highlighted substrings and the font properties that should be used for each of the highlights.  
-Whether that means using different colors, shading backgrounds with bboxes, using path_effects or different fontsize, weights, or styles you are free to choose what best supports highlighting the key information you want your viewers to know. 
+The HighlightText package provides a natural way to specify substrings that should be highlighted and individual font properties that should be used for each of the highlights.  
+That means using different colors, shading backgrounds with bboxes, using path_effects or different fontsize, weights, or styles are all possible and you are free to choose what best supports highlighting the key information you want your viewers to know. 
 
----
+## Use
 
 This package provides a HighlightText class and two wrapper functions that allow you to plot text with `<highlighted substrings>` in matplotlib:
  - ax_text for plotting onto an axes in data coordinates.  
  - fig_text for plotting onto the figure in figure coordinates.  
 
-They take a string with substring delimiters = ['<', '>'] to be highlighted according to the specified highlight_textprops.  
+They take a string with substring delimiters = ['<', '>'] to be highlighted according to the specified highlight_textprops. You can provide other delimiters if necessary.    
 You must specify a list with the same number of textprop dictionaries as you use `<highlighted substrings>`.
 
 The example below prints the text <font color='yellow'>sunny</font> as yellow and <font color='grey'>cloudy</font> as grey.
@@ -351,7 +351,7 @@ Args:
     s (str): textstring with <highlights>
     ha (str, optional): horizontal alignment of the AnnotationBbox. Defaults to 'left'.
     va (str, optional): vertical alignment of the AnnotationBbox. Defaults to 'top'.
-    highlight_textprops (dict, optional): list of textprops dictionaries. Defaults to None.
+    highlight_textprops (List[dict], optional): list of textprops dictionaries. Defaults to None.
     textalign (str, optional): Text Alignment for the AnnotationBbox. Defaults to 'left'.
     delim (tuple, optional): characters that enclose <highlighted substrings>. Defaults to ('<', '>').
     annotationbbox_kw (dict, optional): AnnotationBbox keywords. Defaults to {}.

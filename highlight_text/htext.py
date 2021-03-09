@@ -149,7 +149,7 @@ class HighlightText:
             s (str): textstring with <highlights>
             ha (str, optional): horizontal alignment of the AnnotationBbox. Defaults to 'left'.
             va (str, optional): vertical alignment of the AnnotationBbox. Defaults to 'top'.
-            highlight_textprops (dict, optional): list of textprops dictionaries. Defaults to None.
+            highlight_textprops (List[dict], optional): list of textprops dictionaries. Defaults to None.
             textalign (str, optional): Text Alignment for the AnnotationBbox. Defaults to 'left'.
             delim (tuple, optional): characters that enclose <highlighted substrings>. Defaults to ('<', '>').
             annotationbbox_kw (dict, optional): AnnotationBbox keywords. Defaults to {}.
@@ -367,7 +367,7 @@ def ax_text(x, y, s, ha='left', va='top',
         s (str): textstring with <highlights>
         ha (str, optional): horizontal alignment of the AnnotationBbox. Defaults to 'left'.
         va (str, optional): vertical alignment of the AnnotationBbox. Defaults to 'top'.
-        highlight_textprops (dict, optional): list of textprops dictionaries. Defaults to None.
+        highlight_textprops (List[dict], optional): list of textprops dictionaries. Defaults to None.
         textalign (str, optional): Text Alignment for the AnnotationBbox. Defaults to 'left'.
         delim (tuple, optional): characters that enclose <highlighted substrings>. Defaults to ('<', '>').
         annotationbbox_kw (dict, optional): AnnotationBbox keywords. Defaults to {}.
@@ -416,7 +416,7 @@ def fig_text(x, y, s, ha='left', va='top',
         s (str): textstring with <highlights>
         ha (str, optional): horizontal alignment of the AnnotationBbox. Defaults to 'left'.
         va (str, optional): vertical alignment of the AnnotationBbox. Defaults to 'top'.
-        highlight_textprops (dict, optional): list of textprops dictionaries. Defaults to None.
+        highlight_textprops (List[dict], optional): list of textprops dictionaries. Defaults to None.
         textalign (str, optional): Text Alignment for the AnnotationBbox. Defaults to 'left'.
         delim (tuple, optional): characters that enclose <highlighted substrings>. Defaults to ('<', '>').
         annotationbbox_kw (dict, optional): AnnotationBbox keywords. Defaults to {}.
