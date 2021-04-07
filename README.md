@@ -1,24 +1,28 @@
 ![png](/examples/highlight_text_logo.png)
 
 ---
-## This is a not fully tested full refactoring of the package.
-
-You can download the code of the full_refactor branch or clone the repository and install the package locally from the cloned repo folder with `pip install -e .` (which installs the the `project found in the current directory` along with the dependencies listed in requirements.txt [that's what "." does]) in developer mode [e = editable] or with `pip install /path/to-cloned/folder`.  
-Then change to the full_refactor branch by `git checkout full_refactor` and restart your notebooks / rerun your script.
-
-If you encounter any problems, please let me know.  
-
----
 
 # HighlightText
 
 The purpose of this package is to make effective annotations easier in matplotlib.
 
-During 2020 data journalism has made a huge leap forward in covering the pandemic.
+In 2020 data journalism has played a vital role in communicating to the public.
 There are now many publications that routinely use various forms of colored text highlights of key information in the title, that until then has often been shown in legends.  
 
 The HighlightText package provides a natural way to specify substrings that should be highlighted and individual font properties that should be used for each of the highlights.  
 That means using different colors, shading backgrounds with bboxes, using path_effects or different fontsize, weights, or styles are all possible and you are free to choose what best supports highlighting the key information you want your viewers to know. 
+
+# Installation
+
+```python
+pip install highlight-text
+```
+
+## Note
+
+The newest version breaks with the prior syntax of individually specifying highlight_colors and other params for eg. bboxes and path_effects.  
+You can now provide any matplotlib.text.Text keyword arguments for any of the highlighted substrings into the `highlight_textprops` parameter.  
+You can familiarize yourself with the new syntax and the possibilities this provides by having a look at the examples below.  
 
 ## Use
 
@@ -336,12 +340,6 @@ ax.set_xlim(0, 3)
 ```
 
 ![Example 9](/examples/Example9_arrowprops.png)
-
-
-# Note:
-
-    pip install highlight-text installs the prior stable version and not this refactor.
-
 
 ```python
 """
