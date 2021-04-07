@@ -280,9 +280,13 @@ class HighlightText:
 
     def make_highlight_insets(self, make_highlight_insets, **kwargs):
         """creates axes insets for each text_highlight that is passed True
+        Returns a list with length n_highlights of Axes objects or None
 
         Args:
             make_highlight_insets (list(bool)): list of booleans with len(get_highlight_areas())
+
+        Returns:
+            highlight_axes (list(matplotlib.axes.Axes or None))
         """
 
         self.set_renderer()
@@ -301,6 +305,7 @@ class HighlightText:
             else:
                 # set the _highlight_inset to None
                 self.highlight_axes.append(None)
+        return self.highlight_axes
 
     def set_renderer(self):
         self.fig.canvas.draw()
