@@ -87,6 +87,29 @@ fig_text(x=0.25, y=0.5,
 
 ![Example1](/examples/Example1.png)
 
+
+## Standard syntax using highlight_textprops vs inline syntax
+
+#### standard syntax using highlight_textprops (List[Dict]) parameter
+```python
+fig, ax = plt.subplots(figsize=(6, 4))
+
+s = 'Text with <highlighted color>'
+fig_text(0.125, 0.9, s, fontsize=18, va='bottom', highlight_textprops=[{"color": "red"}])
+```
+
+#### inline syntax using `::dict` at the end of a `<highlighted substring>`
+
+```python
+fig, ax = plt.subplots(figsize=(6, 4))
+
+s = 'Text with <highlighted color::{"color": "red"}>'
+fig_text(0.125, 0.9, s, fontsize=18, va='bottom')
+```
+
+![Syntax Example](/examples/inline_syntax_example.png)
+
+
 # Further Examples  
 
 [1) Showcase Use: Color Encoded Title - @petermckeever](#ColorEncodingExample)  
